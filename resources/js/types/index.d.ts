@@ -27,7 +27,24 @@ export interface SharedData {
     quote: { message: string; author: string };
     auth: Auth;
     sidebarOpen: boolean;
+    alert: {
+        type: 'success' | 'failure' | 'warning';
+        message: string;
+        title: string;
+    }
     [key: string]: unknown;
+}
+
+export interface Patient {
+    id: number;
+    name: string;
+    slug: string;
+    dob?: string;
+    age: string;
+    email?: string;
+    contact?: string;
+    created_at: string;
+    updated_at: string;
 }
 
 export interface User {
