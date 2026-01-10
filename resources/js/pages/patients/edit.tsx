@@ -17,9 +17,9 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Edit(props: { patient: Patient }) {
+export default function Edit({ patient }: { patient: Patient }) {
 
-    const [phone, setPhone] = useState(props.patient.contact);
+    const [phone, setPhone] = useState(patient.contact);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPhone(formatPhone(e.target.value));
@@ -27,11 +27,11 @@ export default function Edit(props: { patient: Patient }) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={props.patient.name} />
+            <Head title={patient.name} />
             <div className="my-8 flex h-full flex-1 flex-col overflow-x-auto">
                 <div>
                     <Form
-                        {...update.form(props.patient)}
+                        {...update.form(patient)}
                         className="mx-auto max-w-5xl rounded-xl bg-neutral-900 p-6"
                     >
                         {({ processing, errors }) => (
@@ -39,7 +39,7 @@ export default function Edit(props: { patient: Patient }) {
                                 <div>
                                     <div className="border-b border-neutral-900/10 pb-12 dark:border-white/10">
                                         <h2 className="text-base/7 font-semibold text-neutral-900 dark:text-white">
-                                            Dados de {props.patient.name}
+                                            Dados de {patient.name}
                                         </h2>
                                         <p className="mt-1 text-sm/6 text-neutral-600 dark:text-neutral-400">
                                             Apenas nome e data de nascimento são
@@ -55,7 +55,7 @@ export default function Edit(props: { patient: Patient }) {
                                                     id="name"
                                                     type="text"
                                                     name="name"
-                                                    defaultValue={props.patient.name}
+                                                    defaultValue={patient.name}
                                                     maxLength={150}
                                                     autoFocus
                                                     tabIndex={1}
@@ -74,7 +74,7 @@ export default function Edit(props: { patient: Patient }) {
                                                     id="dob"
                                                     type="date"
                                                     name="dob"
-                                                    defaultValue={props.patient.dob}
+                                                    defaultValue={patient.dob}
                                                     tabIndex={2}
                                                 />
                                                 <InputError
@@ -110,7 +110,7 @@ export default function Edit(props: { patient: Patient }) {
                                                     id="email"
                                                     type="email"
                                                     name="email"
-                                                    defaultValue={props.patient.email}
+                                                    defaultValue={patient.email}
                                                     maxLength={150}
                                                     tabIndex={4}
                                                 />
