@@ -66,7 +66,7 @@ export default function Create() {
                                                 />
                                             </div>
 
-                                            <div className="grid gap-y-2 sm:col-span-3">
+                                            <div className="relative grid gap-y-2 sm:col-span-3">
                                                 <Label htmlFor="dob">
                                                     Data de Nascimento
                                                 </Label>
@@ -101,13 +101,13 @@ export default function Create() {
                                                 />
                                             </div>
 
-                                            <div className="grid gap-y-2 sm:col-span-3">
+                                            <div className="relative grid gap-y-2 sm:col-span-3">
                                                 <Label htmlFor="email">
                                                     E-mail
                                                 </Label>
                                                 <Input
                                                     id="email"
-                                                    type="email"
+                                                    type="text"
                                                     name="email"
                                                     maxLength={150}
                                                     tabIndex={4}

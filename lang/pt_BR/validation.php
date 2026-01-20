@@ -15,8 +15,21 @@ return [
 
     'custom' => [
         'name' => [
-            'required' => 'O campo nome é necessário',
+            'required' => 'O nome é necessário',
             'max' => 'O número de caracteres foi excedido para este campo'
+        ],
+        'dob' => [
+            'required' => 'A data de nascimento é necessária',
+            'before' => 'A data de nascimento deve ser anterior a hoje',
+            'date' => 'Data inválida',
+        ],
+        'email' => [
+            'unique' => 'Esse e-mail já está sendo usado',
+            'email' => 'É necessário que seja um e-mail válido',
+        ],
+        'contact' => [
+            'max' => 'Número de contato muito longo',
+            'regex' => 'Formato de contato incorreto',
         ],
     ],
 

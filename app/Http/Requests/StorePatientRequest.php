@@ -50,7 +50,7 @@ class StorePatientRequest extends FormRequest
             'slug' => 'required|string|max:255|unique:patients',
             'email' => 'nullable|string|email|max:255|unique:patients',
             'dob' => 'required|date|date_format:Y-m-d|' . Rule::date()->beforeToday(),
-            'contact' => 'nullable|string|max:255',
+            'contact' => 'nullable|string|max:15|regex:/\(\d{2}\)\s\d{4,5}-\d{4}/',
         ];
     }
 }
