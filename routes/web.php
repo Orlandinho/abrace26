@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\SpecialtyController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -26,6 +27,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/pacientes/{patient:slug}/editar', 'edit')->name('patients.edit');
         Route::patch('/pacientes/{patient}', 'update')->name('patients.update');
         Route::delete('/pacientes/{patient}', 'destroy')->name('patients.destroy');
+    });
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::controller(SpecialtyController::class)->group(function () {
+        Route::get('/especialidades', 'index')->name('specialties.index');
+        Route::post('/especialidades', 'store')->name('specialties.store');
+        Route::patch('/especialidades/{specialty}', 'update')->name('specialties.update');
+        Route::delete('/especialidades/{specialty}', 'destroy')->name('specialties.destroy');
     });
 });
 

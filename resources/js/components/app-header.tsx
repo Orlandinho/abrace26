@@ -33,14 +33,16 @@ import { dashboard } from '@/routes';
 import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import {
-    Heart,
+    HeartPulse,
     LayoutGrid,
     Menu,
     Search,
+    Stethoscope,
 } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
-import { index } from '@/routes/patients';
+import { index as indexPatients } from '@/routes/patients';
+import { index as indexSpecialties } from '@/routes/specialties';
 
 const mainNavItems: NavItem[] = [
     {
@@ -50,8 +52,13 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Pacientes',
-        href: index().url,
-        icon: Heart
+        href: indexPatients().url,
+        icon: HeartPulse,
+    },
+    {
+        title: 'Especialidades',
+        href: indexSpecialties().url,
+        icon: Stethoscope,
     },
 ];
 

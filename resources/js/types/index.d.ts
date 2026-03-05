@@ -47,6 +47,15 @@ export interface Patient {
     updated_at: string;
 }
 
+export interface Specialty {
+    id: number;
+    name: string;
+    slug: string;
+    limit: string;
+    created_at: string;
+    updated_at: string;
+}
+
 export interface User {
     id: number;
     name: string;

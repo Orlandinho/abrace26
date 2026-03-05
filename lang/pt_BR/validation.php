@@ -31,6 +31,9 @@ return [
             'max' => 'Número de contato muito longo',
             'regex' => 'Formato de contato incorreto',
         ],
+        'slug' => [
+            'unique' => 'Esse nome já está cadastrado no sistema'
+        ]
     ],
 
     /*

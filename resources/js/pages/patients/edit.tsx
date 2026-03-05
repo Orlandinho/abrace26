@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem, Patient } from '@/types';
-import { Form, Head } from '@inertiajs/react';
+import { Form, Head, Link } from '@inertiajs/react';
 import { index, update } from '@/routes/patients';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -9,6 +9,8 @@ import { Spinner } from '@/components/ui/spinner';
 import { Button } from '@/components/ui/button';
 import React, { useState } from 'react';
 import { formatPhone } from '@/lib/utils'
+import { clsx } from 'clsx';
+import { LoaderCircle } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -55,6 +57,7 @@ export default function Edit({ patient }: { patient: Patient }) {
                                                     id="name"
                                                     type="text"
                                                     name="name"
+                                                    required
                                                     defaultValue={patient.name}
                                                     maxLength={150}
                                                     autoFocus
@@ -66,7 +69,7 @@ export default function Edit({ patient }: { patient: Patient }) {
                                                 />
                                             </div>
 
-                                            <div className="grid gap-y-2 sm:col-span-3">
+                                            <div className="relative grid gap-y-2 sm:col-span-3">
                                                 <Label htmlFor="dob">
                                                     Data de Nascimento
                                                 </Label>
@@ -102,7 +105,7 @@ export default function Edit({ patient }: { patient: Patient }) {
                                                 />
                                             </div>
 
-                                            <div className="grid gap-y-2 sm:col-span-3">
+                                            <div className="relative grid gap-y-2 sm:col-span-3">
                                                 <Label htmlFor="email">
                                                     E-mail
                                                 </Label>
@@ -123,22 +126,37 @@ export default function Edit({ patient }: { patient: Patient }) {
                                     </div>
                                 </div>
 
-                                <div className="mt-6 flex items-center justify-end gap-x-6">
-                                    <button
-                                        type="button"
-                                        className="text-sm/6 font-semibold text-neutral-900 dark:text-white"
+                                <div className="mt-6 flex items-center justify-end gap-x-2">
+                                    <Link
+                                        as="button"
+                                        href={index().url}
+                                        className="mt-3 inline-flex w-full cursor-pointer justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-neutral-900 shadow-xs inset-ring-1 inset-ring-neutral-300 hover:bg-neutral-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20"
                                     >
                                         Cancelar
-                                    </button>
-                                    <Button
-                                        type="submit"
-                                        tabIndex={4}
+                                    </Link>
+                                    <button
                                         disabled={processing}
-                                        data-test="login-button"
+                                        type="submit"
+                                        className={clsx(
+                                            'relative inline-flex w-full cursor-pointer justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 sm:ml-3 sm:w-auto dark:shadow-none',
+                                            processing
+                                                ? 'cursor-not-allowed dark:bg-green-300/75'
+                                                : 'dark:bg-green-500 dark:hover:bg-green-400',
+                                        )}
                                     >
-                                        {processing && <Spinner />}
-                                        Atualizar
-                                    </Button>
+                                        {processing && (
+                                            <div className="absolute inset-0 grid place-items-center">
+                                                <LoaderCircle className="size-5 animate-spin stroke-primary" />
+                                            </div>
+                                        )}
+                                        <span
+                                            className={clsx(
+                                                processing && 'invisible',
+                                            )}
+                                        >
+                                            Atualizar
+                                        </span>
+                                    </button>
                                 </div>
                             </>
                         )}

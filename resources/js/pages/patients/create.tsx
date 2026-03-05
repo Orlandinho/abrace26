@@ -1,15 +1,15 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Form, Head } from '@inertiajs/react';
+import { Form, Head, Link } from '@inertiajs/react';
 import { create } from '@/routes/patients';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import InputError from '@/components/input-error';
-import { Spinner } from '@/components/ui/spinner';
-import { Button } from '@/components/ui/button';
-import { store } from '@/routes/patients';
+import { index, store } from '@/routes/patients';
 import React, { useState } from 'react';
 import { formatPhone } from '@/lib/utils'
+import { clsx } from 'clsx';
+import { LoaderCircle } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -56,6 +56,7 @@ export default function Create() {
                                                     id="name"
                                                     type="text"
                                                     name="name"
+                                                    required
                                                     maxLength={150}
                                                     autoFocus
                                                     tabIndex={1}
@@ -121,22 +122,37 @@ export default function Create() {
                                     </div>
                                 </div>
 
-                                <div className="mt-6 flex items-center justify-end gap-x-6">
+                                <div className="mt-6 flex items-center justify-end gap-x-2">
+                                    <Link
+                                        as="button"
+                                        href={index().url}
+                                        className="mt-3 inline-flex cursor-pointer w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-neutral-900 shadow-xs inset-ring-1 inset-ring-neutral-300 hover:bg-neutral-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20"
+                                    >
+                                        Cancelar
+                                    </Link>
                                     <button
-                                        type="button"
-                                        className="text-sm/6 font-semibold text-neutral-900 dark:text-white"
-                                    >
-                                        Cancel
-                                    </button>
-                                    <Button
-                                        type="submit"
-                                        tabIndex={4}
                                         disabled={processing}
-                                        data-test="login-button"
+                                        type="submit"
+                                        className={clsx(
+                                            'relative inline-flex w-full cursor-pointer justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 sm:ml-3 sm:w-auto dark:shadow-none',
+                                            processing
+                                                ? 'cursor-not-allowed dark:bg-green-300/75'
+                                                : 'dark:bg-green-500 dark:hover:bg-green-400',
+                                        )}
                                     >
-                                        {processing && <Spinner />}
-                                        Salvar
-                                    </Button>
+                                        {processing && (
+                                            <div className="absolute inset-0 grid place-items-center">
+                                                <LoaderCircle className="size-5 animate-spin stroke-primary" />
+                                            </div>
+                                        )}
+                                        <span
+                                            className={clsx(
+                                                processing && 'invisible',
+                                            )}
+                                        >
+                                            Cadastrar
+                                        </span>
+                                    </button>
                                 </div>
                             </>
                         )}

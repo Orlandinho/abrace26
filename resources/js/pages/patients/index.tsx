@@ -17,11 +17,11 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function Index({patients}: { patients: Patient[]}) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Novo Paciente" />
+            <Head title="Pacientes" />
             <div className="my-8 flex h-full flex-1 flex-col overflow-x-auto px-2 sm:px-0">
                 <div>
                     <div className="mx-auto max-w-5xl rounded-xl bg-neutral-900 p-4">
-                        {patients.length < 2 ? (
+                        {patients.length < 1 ? (
                             <div className="sm:flex sm:items-center">
                                 <div className="sm:flex-auto">
                                     <h1 className="text-base font-semibold text-neutral-900 dark:text-white">
@@ -40,9 +40,9 @@ export default function Index({patients}: { patients: Patient[]}) {
                                     <Link
                                         href={create().url}
                                         type="button"
-                                        className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:bg-indigo-500 dark:hover:bg-indigo-400 dark:focus-visible:outline-indigo-500"
+                                        className="block rounded-md bg-amber-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-amber-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 dark:bg-amber-600 dark:hover:bg-amber-400 dark:focus-visible:outline-amber-500"
                                     >
-                                        Novo paciente
+                                        Novo Paciente
                                     </Link>
                                 </div>
                             </div>
@@ -63,9 +63,9 @@ export default function Index({patients}: { patients: Patient[]}) {
                                         <Link
                                             href={create().url}
                                             type="button"
-                                            className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:bg-indigo-500 dark:hover:bg-indigo-400 dark:focus-visible:outline-indigo-500"
+                                            className="block rounded-md bg-amber-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-amber-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 dark:bg-amber-600 dark:hover:bg-amber-500 dark:focus-visible:outline-amber-500"
                                         >
-                                            Novo paciente
+                                            Novo Paciente
                                         </Link>
                                     </div>
                                 </div>
@@ -121,7 +121,7 @@ export default function Index({patients}: { patients: Patient[]}) {
                                                     >
                                                         <SquarePenIcon className="size-5">
                                                             <span className="sr-only">
-                                                                , {patient.id}
+                                                                {patient.id}
                                                             </span>
                                                         </SquarePenIcon>
                                                     </Link>

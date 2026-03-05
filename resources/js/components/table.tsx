@@ -74,7 +74,7 @@ export function TableCell({
         <td
             {...props}
             className={
-                'px-3 py-4 text-sm whitespace-nowrap text-neutral-500 first:pr-3 first:pl-4 first:font-medium last:text-right dark:text-neutral-400 first:dark:text-white ' +
+                'px-3 py-3 text-sm whitespace-nowrap text-neutral-500 first:pr-3 first:pl-4 first:font-medium last:text-right dark:text-neutral-400 first:dark:text-white ' +
                 className
             }
         />

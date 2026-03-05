@@ -8,16 +8,19 @@ import {
 } from '@headlessui/react';
 import { TriangleAlertIcon, TrashIcon } from 'lucide-react';
 import { useState } from 'react';
-import { Patient } from '@/types';
+import { Specialty } from '@/types';
 import { Link } from '@inertiajs/react';
-import { destroy } from '@/routes/patients';
+import { destroy } from '@/routes/specialties';
 
-export default function DeletePatientModal(props: {patient: Patient}) {
+export default function DeleteSpecialtyModal({specialty}: {specialty: Specialty}) {
     const [open, setOpen] = useState(false);
 
     return (
         <div>
-            <button onClick={() => setOpen(true)} className="cursor-pointer">
+            <button
+                onClick={() => setOpen(true)}
+                className="cursor-pointer"
+            >
                 <TrashIcon className="size-5 text-red-600 hover:text-red-400" />
             </button>
             <Dialog open={open} onClose={setOpen} className="relative z-10">
@@ -48,13 +51,7 @@ export default function DeletePatientModal(props: {patient: Patient}) {
                                     </DialogTitle>
                                     <div className="mt-2">
                                         <p className="text-sm text-neutral-500 dark:text-neutral-400">
-                                            Os dados de{' '}
-                                            <span className="font-bold text-red-500">
-                                                {' '}
-                                                {props.patient.name}{' '}
-                                            </span>{' '}
-                                            serão excluídos permanentemente!
-                                            Deseja prosseguir com esta ação?
+                                            A especialidade <span className="font-bold text-red-500"> {specialty.name} </span> será excluída permanentemente! Deseja prosseguir com esta ação?
                                         </p>
                                     </div>
                                 </div>
@@ -64,9 +61,9 @@ export default function DeletePatientModal(props: {patient: Patient}) {
                                     as="button"
                                     onClick={() => setOpen(false)}
                                     method="delete"
-                                    href={destroy(props.patient.id)}
+                                    href={destroy(specialty)}
                                     preserveScroll
-                                    className="inline-flex w-full cursor-pointer justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto dark:bg-red-500 dark:shadow-none dark:hover:bg-red-400"
+                                    className="inline-flex cursor-pointer w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto dark:bg-red-500 dark:shadow-none dark:hover:bg-red-400"
                                 >
                                     Excluir
                                 </Link>
@@ -74,7 +71,7 @@ export default function DeletePatientModal(props: {patient: Patient}) {
                                     type="button"
                                     data-autofocus
                                     onClick={() => setOpen(false)}
-                                    className="mt-3 inline-flex w-full cursor-pointer justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-neutral-900 shadow-xs inset-ring-1 inset-ring-neutral-300 hover:bg-neutral-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20"
+                                    className="mt-3 inline-flex cursor-pointer w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-neutral-900 shadow-xs inset-ring-1 inset-ring-neutral-300 hover:bg-neutral-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20"
                                 >
                                     Cancelar
                                 </button>
