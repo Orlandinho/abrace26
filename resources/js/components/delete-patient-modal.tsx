@@ -26,7 +26,7 @@ export default function DeletePatientModal(props: {patient: Patient}) {
                     className="fixed inset-0 bg-neutral-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in dark:bg-neutral-900/50"
                 />
 
-                <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+                <div className="fixed md:inset-0 top-0 z-10 w-screen overflow-y-auto">
                     <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
                         <DialogPanel
                             transition

@@ -1,11 +1,10 @@
-import { SquarePen, Trash } from 'lucide-react';
 import { Specialty } from '@/types';
 import UpdateSpecialityModal from '@/components/update-speciality-modal';
 import DeleteSpecialtyModal from '@/components/delete-specialty-modal';
 
 export default function SpecialtyCards( {specialties}: { specialties: Specialty[]}) {
     return (
-        <div className="mt-16">
+        <div className="mt-10">
             <ul
                 role="list"
                 className="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3"

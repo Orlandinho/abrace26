@@ -19,7 +19,7 @@ class PatientResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'email' => $this->email,
-            'dob' => $this->when($request->routeIs('patients.edit'), $this->dob->format('Y-m-d')),
+            'dob' => $this->dob->format('Y-m-d'),
             'age' => $this->dob->age > 1 ? $this->dob->age . ' anos' : $this->dob->age . ' ano',
             'contact' => $this->contact,
         ];

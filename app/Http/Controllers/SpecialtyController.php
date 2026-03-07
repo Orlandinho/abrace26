@@ -27,7 +27,7 @@ class SpecialtyController extends Controller
         $new_specialty = Specialty::create($request->validated());
 
         return redirect()
-            ->route('specialties.index')
+            ->back()
             ->alertSuccess("Especialidade {$new_specialty->name} cadastrada!");
     }
 
@@ -46,7 +46,7 @@ class SpecialtyController extends Controller
     {
         $specialty->update($request->validated());
         return redirect()
-            ->route('specialties.index')
+            ->back()
             ->alertSuccess("Especialidade {$specialty->name} atualizada!");
     }
 
@@ -57,7 +57,7 @@ class SpecialtyController extends Controller
     {
         $specialty->delete();
         return redirect()
-            ->route('specialties.index')
+            ->back()
             ->alertSuccess('Especialidade excluída!');
     }
 }

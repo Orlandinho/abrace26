@@ -6,6 +6,8 @@ import { Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from '@
 import { isElder } from '@/lib/utils';
 import { SquarePenIcon } from 'lucide-react';
 import DeletePatientModal from '@/components/delete-patient-modal';
+import CreatePatientModal from '@/components/create-patient-modal';
+import UpdatePatientModal from '@/components/update-patient-modal';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -37,17 +39,10 @@ export default function Index({patients}: { patients: Patient[]}) {
                                     </p>
                                 </div>
                                 <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                                    <Link
-                                        href={create().url}
-                                        type="button"
-                                        className="block rounded-md bg-amber-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-amber-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 dark:bg-amber-600 dark:hover:bg-amber-400 dark:focus-visible:outline-amber-500"
-                                    >
-                                        Novo Paciente
-                                    </Link>
+                                    <CreatePatientModal />
                                 </div>
                             </div>
                         ) : (
-                            //<PatientsTable patients={props.patients} />
                             <>
                                 <div className="sm:flex sm:items-center">
                                     <div className="sm:flex-auto">
@@ -60,13 +55,7 @@ export default function Index({patients}: { patients: Patient[]}) {
                                         </p>
                                     </div>
                                     <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                                        <Link
-                                            href={create().url}
-                                            type="button"
-                                            className="block rounded-md bg-amber-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-amber-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 dark:bg-amber-600 dark:hover:bg-amber-500 dark:focus-visible:outline-amber-500"
-                                        >
-                                            Novo Paciente
-                                        </Link>
+                                        <CreatePatientModal />
                                     </div>
                                 </div>
                                 <Table>
@@ -113,18 +102,9 @@ export default function Index({patients}: { patients: Patient[]}) {
                                                         'Sem contato cadastrado'}
                                                 </TableCell>
                                                 <TableCell
-                                                    className={'flex gap-x-3'}
+                                                    className='flex gap-x-3'
                                                 >
-                                                    <Link
-                                                        href={edit(patient)}
-                                                        className="text-green-600 hover:text-green-400"
-                                                    >
-                                                        <SquarePenIcon className="size-5">
-                                                            <span className="sr-only">
-                                                                {patient.id}
-                                                            </span>
-                                                        </SquarePenIcon>
-                                                    </Link>
+                                                    <UpdatePatientModal patient={patient} />
                                                     <DeletePatientModal
                                                         patient={patient}
                                                     />

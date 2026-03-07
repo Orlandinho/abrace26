@@ -21,10 +21,8 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::controller(PatientController::class)->group(function () {
         Route::get('/pacientes', 'index')->name('patients.index');
-        Route::get('/pacientes/criar', 'create' )->name('patients.create');
         Route::post('/pacientes', 'store')->name('patients.store');
         Route::get('/pacientes/{patient:slug}', 'show')->name('patients.show');
-        Route::get('/pacientes/{patient:slug}/editar', 'edit')->name('patients.edit');
         Route::patch('/pacientes/{patient}', 'update')->name('patients.update');
         Route::delete('/pacientes/{patient}', 'destroy')->name('patients.destroy');
     });

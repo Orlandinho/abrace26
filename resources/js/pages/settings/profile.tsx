@@ -37,8 +37,8 @@ export default function Profile({
             <SettingsLayout>
                 <div className="space-y-6">
                     <HeadingSmall
-                        title="Profile information"
-                        description="Update your name and email address"
+                        title="Atualização de Profile"
+                        description="Atualize o seu nome e endereço de e-mail"
                     />
 
                     <Form
@@ -51,7 +51,7 @@ export default function Profile({
                         {({ processing, recentlySuccessful, errors }) => (
                             <>
                                 <div className="grid gap-2">
-                                    <Label htmlFor="name">Name</Label>
+                                    <Label htmlFor="name">Nome</Label>
 
                                     <Input
                                         id="name"
@@ -70,7 +70,7 @@ export default function Profile({
                                 </div>
 
                                 <div className="grid gap-2">
-                                    <Label htmlFor="email">Email address</Label>
+                                    <Label htmlFor="email">Endereço de E-mail</Label>
 
                                     <Input
                                         id="email"
@@ -118,10 +118,11 @@ export default function Profile({
 
                                 <div className="flex items-center gap-4">
                                     <Button
+                                        className="bg-amber-600 text-white shadow-xs hover:bg-amber-600/90 focus-visible:border-ring focus-visible:ring-amber-600/20"
                                         disabled={processing}
                                         data-test="update-profile-button"
                                     >
-                                        Save
+                                        Salvar
                                     </Button>
 
                                     <Transition
@@ -132,7 +133,7 @@ export default function Profile({
                                         leaveTo="opacity-0"
                                     >
                                         <p className="text-sm text-neutral-600">
-                                            Saved
+                                            Salvo
                                         </p>
                                     </Transition>
                                 </div>

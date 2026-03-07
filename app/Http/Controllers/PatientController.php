@@ -20,14 +20,6 @@ class PatientController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return inertia('patients/create');
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StorePatientRequest $request)
@@ -45,16 +37,6 @@ class PatientController extends Controller
     public function show(Patient $patient)
     {
         return inertia('patients/show', [
-            'patient' => PatientResource::make($patient)
-        ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Patient $patient)
-    {
-        return inertia('patients/edit', [
             'patient' => PatientResource::make($patient)
         ]);
     }
