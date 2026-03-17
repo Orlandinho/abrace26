@@ -33,6 +33,7 @@ import { dashboard } from '@/routes';
 import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import {
+    Calendar,
     HeartPulse,
     LayoutGrid,
     Menu,
@@ -43,6 +44,7 @@ import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
 import { index as indexPatients } from '@/routes/patients';
 import { index as indexSpecialties } from '@/routes/specialties';
+import { index as indexAppointments } from '@/routes/appointments';
 
 const mainNavItems: NavItem[] = [
     {
@@ -59,6 +61,11 @@ const mainNavItems: NavItem[] = [
         title: 'Especialidades',
         href: indexSpecialties().url,
         icon: Stethoscope,
+    },
+    {
+        title: 'Consultas',
+        href: indexAppointments().url,
+        icon: Calendar,
     },
 ];
 

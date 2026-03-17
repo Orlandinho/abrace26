@@ -5,7 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePatientRequest;
 use App\Http\Requests\UpdatePatientRequest;
 use App\Http\Resources\PatientResource;
+use App\Http\Resources\PatientSpecialtyResource;
+use App\Http\Resources\SpecialtyResource;
 use App\Models\Patient;
+use App\Models\PatientSpecialty;
+use App\Models\Specialty;
+use Illuminate\Support\Facades\DB;
 
 class PatientController extends Controller
 {
@@ -15,20 +20,27 @@ class PatientController extends Controller
     public function index()
     {
         return inertia('patients/index', [
-            'patients' => PatientResource::collection(Patient::orderBy('name')->get())
+            'patients' => PatientResource::collection(Patient::with('specialties')->orderBy('name')->get()),
+            'specialties' => SpecialtyResource::collection(Specialty::withCount('patients')->orderBy('name')->get())
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
+     * @throws \Throwable
      */
     public function store(StorePatientRequest $request)
     {
-        $new_patient = Patient::create($request->validated());
+        DB::transaction( function () use ($request) {
+            $patient = Patient::create($request->safe()->except('specialties'));
+            if ($request->specialties) {
+                $patient->specialties()->attach($request->specialties);
+            }
+        });
 
         return redirect()
-            ->route('patients.index')
-            ->alertSuccess("Paciente {$new_patient->name} cadastrado!");
+            ->back()
+            ->alertSuccess("Paciente {$request->name} cadastrado!");
     }
 
     /**
@@ -37,19 +49,23 @@ class PatientController extends Controller
     public function show(Patient $patient)
     {
         return inertia('patients/show', [
-            'patient' => PatientResource::make($patient)
+            'patient' => PatientResource::make($patient),
+            'appointments' => PatientSpecialtyResource::collection(PatientSpecialty::with(['specialty','patient'])->where('patient_id', $patient->id)->get()),
         ]);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Edit the specified resource in storage.
      */
     public function update(UpdatePatientRequest $request, Patient $patient)
     {
-        $patient->update($request->validated());
+        DB::transaction( function () use ($request, $patient) {
+            $patient->update($request->safe()->except('specialties'));
+            $patient->specialties()->sync($request->specialties);
+        });
 
         return redirect()
-            ->route('patients.index')
+            ->back()
             ->alertSuccess("Os dados do paciente {$patient->name} foram atualizados!");
     }
 
@@ -61,7 +77,7 @@ class PatientController extends Controller
         $deleted_patient = $patient->name;
         $patient->delete();
         return redirect()
-            ->route('patients.index')
+            ->back()
             ->alertSuccess("Os dados de {$deleted_patient} foram excluídos!");
     }
 }

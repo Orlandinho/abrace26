@@ -2,7 +2,7 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem, Specialty } from '@/types';
 import { Head } from '@inertiajs/react';
 import { index } from '@/routes/specialties';
-import CreateSpecialityModal from '@/components/create-speciality-modal';
+import Create from '@/components/specialty-modals/create';
 import SpecialtyCards from '@/components/specialty-cards';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -35,7 +35,7 @@ export default function Index({specialties}: { specialties: Specialty[]}) {
                                     </p>
                                 </div>
                                 <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                                    <CreateSpecialityModal />
+                                    <Create />
                                 </div>
                             </div>
                         ) : (
@@ -51,7 +51,7 @@ export default function Index({specialties}: { specialties: Specialty[]}) {
                                         </p>
                                     </div>
                                     <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                                        <CreateSpecialityModal />
+                                        <Create />
                                     </div>
                                 </div>
 

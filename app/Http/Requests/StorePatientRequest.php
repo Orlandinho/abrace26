@@ -20,7 +20,7 @@ class StorePatientRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'slug' => Str::slug($this->makeSlugFromName($this->name))
+            'slug' => Str::slug($this->makeSlugFromName($this->name)),
         ]);
     }
 
@@ -48,9 +48,10 @@ class StorePatientRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:patients',
-            'email' => 'nullable|string|email|max:255|unique:patients',
             'dob' => 'required|date|date_format:Y-m-d|' . Rule::date()->beforeToday(),
+            'allow_contact' => 'nullable|boolean',
             'contact' => 'nullable|string|max:15|regex:/\(\d{2}\)\s\d{4,5}-\d{4}/',
+            'specialties' => 'nullable|array|exists:specialties,id',
         ];
     }
 }

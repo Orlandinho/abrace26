@@ -8,11 +8,11 @@ import {
 } from '@headlessui/react';
 import { TriangleAlertIcon, TrashIcon } from 'lucide-react';
 import { useState } from 'react';
-import { Specialty } from '@/types';
+import { Patient } from '@/types';
 import { Link } from '@inertiajs/react';
-import { destroy } from '@/routes/specialties';
+import { destroy } from '@/routes/patients';
 
-export default function DeleteSpecialtyModal({specialty}: {specialty: Specialty}) {
+export default function Delete(props: {patient: Patient}) {
     const [open, setOpen] = useState(false);
 
     return (
@@ -26,7 +26,7 @@ export default function DeleteSpecialtyModal({specialty}: {specialty: Specialty}
                     className="fixed inset-0 bg-neutral-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in dark:bg-neutral-900/50"
                 />
 
-                <div className="fixed top-0 z-10 w-screen overflow-y-auto md:inset-0">
+                <div className="fixed md:inset-0 top-0 z-10 w-screen overflow-y-auto">
                     <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
                         <DialogPanel
                             transition
@@ -48,12 +48,12 @@ export default function DeleteSpecialtyModal({specialty}: {specialty: Specialty}
                                     </DialogTitle>
                                     <div className="mt-2">
                                         <p className="text-sm text-neutral-500 dark:text-neutral-400">
-                                            A especialidade{' '}
+                                            Os dados de{' '}
                                             <span className="font-bold text-red-500">
                                                 {' '}
-                                                {specialty.name}{' '}
+                                                {props.patient.name}{' '}
                                             </span>{' '}
-                                            será excluída permanentemente!
+                                            serão excluídos permanentemente!
                                             Deseja prosseguir com esta ação?
                                         </p>
                                     </div>
@@ -62,9 +62,9 @@ export default function DeleteSpecialtyModal({specialty}: {specialty: Specialty}
                             <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
                                 <Link
                                     as="button"
-                                    onClick={() => setOpen(false)}
+                                    onSuccess={() => setOpen(false)}
                                     method="delete"
-                                    href={destroy(specialty)}
+                                    href={destroy(props.patient.id)}
                                     preserveScroll
                                     className="inline-flex w-full cursor-pointer justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto dark:bg-red-500 dark:shadow-none dark:hover:bg-red-400"
                                 >

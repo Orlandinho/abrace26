@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\PatientSpecialtyController;
 use App\Http\Controllers\SpecialtyController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -34,6 +35,14 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/especialidades', 'store')->name('specialties.store');
         Route::patch('/especialidades/{specialty}', 'update')->name('specialties.update');
         Route::delete('/especialidades/{specialty}', 'destroy')->name('specialties.destroy');
+    });
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::controller(PatientSpecialtyController::class)->group(function () {
+        Route::get('/consultas', 'index')->name('appointments.index');
+        Route::patch('/consultas/{appointment}', 'update')->name('appointments.update');
+        Route::delete('/consultas/{appointment}', 'destroy')->name('appointments.destroy');
     });
 });
 

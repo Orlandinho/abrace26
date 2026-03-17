@@ -6,36 +6,33 @@ import {
     DialogPanel,
     DialogTitle,
 } from '@headlessui/react';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Form } from '@inertiajs/react';
-import { update } from '@/routes/patients';
+import { update } from '@/routes/specialties';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { SquarePen } from 'lucide-react';
 import InputError from '@/components/input-error';
-import { LoaderCircle, SquarePen } from 'lucide-react';
+import { LoaderCircle } from 'lucide-react';
 import { clsx } from 'clsx';
-import { formatPhone } from '@/lib/utils';
-import { Patient } from '@/types';
+import { onlyNumbers } from '@/lib/utils';
+import { Specialty } from '@/types';
 
-export default function UpdatePatientModal({ patient } : { patient: Patient }) {
+export default function Edit({ specialty }: {specialty: Specialty}) {
     const [open, setOpen] = useState(false);
-    const [phone, setPhone] = useState(patient.contact || '');
+    const [limit, setLimit] = useState(specialty.limit);
+    const firstInputRef = useRef<HTMLInputElement>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPhone(formatPhone(e.target.value));
+        setLimit(onlyNumbers(e.target.value));
     };
-
-    const closeModal = () => {
-        setOpen(false);
-        setPhone('');
-    }
 
     return (
         <div>
             <button onClick={() => setOpen(true)} className="cursor-pointer">
                 <SquarePen className="size-5 text-green-600 hover:text-green-400" />
             </button>
-            <Dialog open={open} onClose={setOpen} className="relative z-10">
+            <Dialog open={open} initialFocus={firstInputRef} onClose={setOpen} className="relative z-10">
                 <DialogBackdrop
                     transition
                     className="fixed inset-0 bg-neutral-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in dark:bg-neutral-900/50"
@@ -52,17 +49,17 @@ export default function UpdatePatientModal({ patient } : { patient: Patient }) {
                                     as="h3"
                                     className="text-base font-semibold text-neutral-900 dark:text-white"
                                 >
-                                    Nova Especialidade
+                                    Atualizando {specialty.name}
                                 </DialogTitle>
                             </div>
                             <Form
-                                {...update.form(patient)}
+                                {...update.form(specialty)}
                                 resetOnSuccess
-                                onSuccess={() => closeModal()}
+                                onSuccess={() => setOpen(false)}
                             >
                                 {({ processing, errors }) => (
                                     <>
-                                        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                             <div className="relative grid gap-y-2 sm:col-span-6">
                                                 <Label htmlFor="name">
                                                     Nome
@@ -72,68 +69,39 @@ export default function UpdatePatientModal({ patient } : { patient: Patient }) {
                                                     type="text"
                                                     name="name"
                                                     required
-                                                    defaultValue={patient.name}
+                                                    defaultValue={
+                                                        specialty.name
+                                                    }
                                                     maxLength={100}
-                                                    autoFocus
+                                                    ref={firstInputRef}
                                                     tabIndex={1}
                                                 />
                                                 <InputError
-                                                    message={ errors.name }
+                                                    message={
+                                                        errors.name ||
+                                                        errors.slug
+                                                    }
                                                     className="absolute top-full mt-1"
                                                 />
                                             </div>
 
                                             <div className="relative grid gap-y-2 sm:col-span-6">
-                                                <Label htmlFor="email">
-                                                    E-mail
+                                                <Label htmlFor="limit">
+                                                    Limite
                                                 </Label>
                                                 <Input
-                                                    id="email"
+                                                    id="limit"
                                                     type="text"
-                                                    name="email"
-                                                    defaultValue={patient.email}
-                                                    maxLength={150}
+                                                    name="limit"
+                                                    required
+                                                    value={limit}
+                                                    onChange={handleChange}
+                                                    inputMode="numeric"
+                                                    maxLength={3}
                                                     tabIndex={2}
                                                 />
                                                 <InputError
-                                                    message={errors.email}
-                                                    className="absolute top-full mt-1"
-                                                />
-                                            </div>
-
-                                            <div className="relative grid gap-y-2 sm:col-span-3">
-                                                <Label htmlFor="dob">
-                                                    Data de Nascimento
-                                                </Label>
-                                                <Input
-                                                    id="dob"
-                                                    type="date"
-                                                    name="dob"
-                                                    defaultValue={patient.dob}
-                                                    required
-                                                    tabIndex={3}
-                                                />
-                                                <InputError
-                                                    message={errors.dob}
-                                                    className="absolute top-full mt-1"
-                                                />
-                                            </div>
-
-                                            <div className="relative grid gap-y-2 sm:col-span-3">
-                                                <Label htmlFor="contact">
-                                                    Celular/WhatsApp
-                                                </Label>
-                                                <Input
-                                                    id="contact"
-                                                    type="text"
-                                                    name="contact"
-                                                    value={phone}
-                                                    maxLength={15}
-                                                    onChange={handleChange}
-                                                    tabIndex={4}
-                                                />
-                                                <InputError
-                                                    message={errors.contact}
+                                                    message={errors.limit}
                                                     className="absolute top-full mt-1"
                                                 />
                                             </div>
@@ -141,6 +109,7 @@ export default function UpdatePatientModal({ patient } : { patient: Patient }) {
                                         <div className="mt-6 sm:flex sm:flex-row-reverse">
                                             <button
                                                 disabled={processing}
+                                                type="submit"
                                                 className={clsx(
                                                     'relative inline-flex w-full cursor-pointer justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 sm:ml-3 sm:w-auto dark:shadow-none',
                                                     processing
@@ -164,8 +133,8 @@ export default function UpdatePatientModal({ patient } : { patient: Patient }) {
                                             </button>
                                             <button
                                                 type="button"
-                                                onClick={() => closeModal()}
-                                                className="mt-3 inline-flex w-full cursor-pointer justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-neutral-900 shadow-xs inset-ring-1 inset-ring-neutral-300 hover:bg-neutral-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20"
+                                                onClick={() => setOpen(false)}
+                                                className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-neutral-900 shadow-xs inset-ring-1 inset-ring-neutral-300 hover:bg-neutral-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20"
                                             >
                                                 Cancelar
                                             </button>

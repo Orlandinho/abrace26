@@ -52,9 +52,10 @@ class UpdatePatientRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255|' . Rule::unique('patients')->ignore($this->patient->id),
-            'email' => 'nullable|string|email|max:255|' . Rule::unique('patients')->ignore($this->patient->id),
             'dob' => 'required|date|date_format:Y-m-d|' . Rule::date()->beforeToday(),
-            'contact' => 'nullable|string|max:255',
+            'allow_contact' => 'required|boolean',
+            'contact' => 'nullable|string|max:15|regex:/\(\d{2}\)\s\d{4,5}-\d{4}/',
+            'specialties' => 'nullable|array|exists:specialties,id',
         ];
     }
 }

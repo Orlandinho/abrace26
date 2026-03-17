@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\PatientSpecialty;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,10 +19,12 @@ class PatientResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
-            'email' => $this->email,
             'dob' => $this->dob->format('Y-m-d'),
             'age' => $this->dob->age > 1 ? $this->dob->age . ' anos' : $this->dob->age . ' ano',
             'contact' => $this->contact,
+            'allow_contact' => $this->allow_contact,
+            'specialties' => SpecialtyResource::collection($this->whenLoaded('specialties')),
+
         ];
     }
 }

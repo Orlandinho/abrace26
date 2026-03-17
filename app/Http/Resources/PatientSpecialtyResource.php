@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SpecialtyResource extends JsonResource
+class PatientSpecialtyResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +16,9 @@ class SpecialtyResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'slug' => $this->slug,
-            'limit' => $this->limit,
-            'count' => $this->whenCounted('patients')
+            'status' => $this->status,
+            'patient' => PatientResource::make($this->whenLoaded('patient')),
+            'specialty' => SpecialtyResource::make($this->whenLoaded('specialty')),
         ];
     }
 }

@@ -1,13 +1,12 @@
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem, Patient } from '@/types';
+import { type BreadcrumbItem, Patient, Specialty } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { create, edit, index, show } from '@/routes/patients';
+import { index, show } from '@/routes/patients';
 import { Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from '@/components/table';
 import { isElder } from '@/lib/utils';
-import { SquarePenIcon } from 'lucide-react';
-import DeletePatientModal from '@/components/delete-patient-modal';
-import CreatePatientModal from '@/components/create-patient-modal';
-import UpdatePatientModal from '@/components/update-patient-modal';
+import Delete from '@/components/patient-modals/delete';
+import Create from '@/components/patient-modals/create';
+import Edit from '@/components/patient-modals/edit';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -16,7 +15,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Index({patients}: { patients: Patient[]}) {
+export default function Index({ patients, specialties }: { patients: Patient[], specialties?: Specialty[] }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Pacientes" />
@@ -39,12 +38,12 @@ export default function Index({patients}: { patients: Patient[]}) {
                                     </p>
                                 </div>
                                 <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                                    <CreatePatientModal />
+                                    <Create specialties={specialties} />
                                 </div>
                             </div>
                         ) : (
                             <>
-                                <div className="sm:flex sm:items-center">
+                                <div className="sm:flex sm:items-center mb-8">
                                     <div className="sm:flex-auto">
                                         <h1 className="text-base font-semibold text-neutral-900 dark:text-white">
                                             Pacientes
@@ -55,7 +54,7 @@ export default function Index({patients}: { patients: Patient[]}) {
                                         </p>
                                     </div>
                                     <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                                        <CreatePatientModal />
+                                        <Create specialties={specialties} />
                                     </div>
                                 </div>
                                 <Table>
@@ -63,8 +62,8 @@ export default function Index({patients}: { patients: Patient[]}) {
                                         <TableRow>
                                             <TableHeader>Nome</TableHeader>
                                             <TableHeader>Idade</TableHeader>
-                                            <TableHeader>Email</TableHeader>
                                             <TableHeader>Contato</TableHeader>
+                                            <TableHeader>Consultas</TableHeader>
                                             <TableHeader>
                                                 <span className="sr-only">
                                                     Edit and Delete
@@ -94,18 +93,17 @@ export default function Index({patients}: { patients: Patient[]}) {
                                                     </span>
                                                 </TableCell>
                                                 <TableCell>
-                                                    {patient.email ??
-                                                        'Sem e-mail cadastrado'}
-                                                </TableCell>
-                                                <TableCell>
                                                     {patient.contact ??
                                                         'Sem contato cadastrado'}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {patient.specialties?.length}
                                                 </TableCell>
                                                 <TableCell
                                                     className='flex gap-x-3'
                                                 >
-                                                    <UpdatePatientModal patient={patient} />
-                                                    <DeletePatientModal
+                                                    <Edit patient={patient} specialties={specialties} />
+                                                    <Delete
                                                         patient={patient}
                                                     />
                                                 </TableCell>

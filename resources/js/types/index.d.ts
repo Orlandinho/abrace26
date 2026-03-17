@@ -35,25 +35,33 @@ export interface SharedData {
     [key: string]: unknown;
 }
 
+export interface Appointment {
+    id: number;
+    patient: Patient;
+    specialty: Specialty;
+    status: number;
+}
+
 export interface Patient {
     id: number;
     name: string;
     slug: string;
-    dob?: string;
+    dob: string;
     age: string;
-    email?: string;
+    allow_contact: boolean;
     contact?: string;
-    created_at: string;
-    updated_at: string;
+    specialties?: Specialty[];
+    pivot?: Pivot[]
 }
 
 export interface Specialty {
     id: number;
     name: string;
     slug: string;
-    limit: string;
-    created_at: string;
-    updated_at: string;
+    limit: number;
+    count: number;
+    patient?: Patient;
+    pivot?: Pivot[];
 }
 
 export interface User {

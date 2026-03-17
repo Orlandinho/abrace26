@@ -6,32 +6,44 @@ import {
     DialogPanel,
     DialogTitle,
 } from '@headlessui/react';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Form } from '@inertiajs/react';
-import { update } from '@/routes/specialties';
+import { store } from '@/routes/specialties';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { SquarePen } from 'lucide-react';
 import InputError from '@/components/input-error';
 import { LoaderCircle } from 'lucide-react';
 import { clsx } from 'clsx';
 import { onlyNumbers } from '@/lib/utils';
-import { Specialty } from '@/types';
 
-export default function UpdateSpecialityModal({ specialty }: {specialty: Specialty}) {
+export default function Create() {
     const [open, setOpen] = useState(false);
-    const [limit, setLimit] = useState(specialty.limit);
+    const  [limit, setLimit] = useState('');
+    const firstInputRef = useRef<HTMLInputElement>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setLimit(onlyNumbers(e.target.value));
     };
 
+    const closeModal = () => {
+        setOpen(false);
+        setLimit('');
+    }
+
     return (
         <div>
-            <button onClick={() => setOpen(true)} className="cursor-pointer">
-                <SquarePen className="size-5 text-green-600 hover:text-green-400" />
+            <button
+                onClick={() => setOpen(true)}
+                className="block cursor-pointer rounded-md bg-amber-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-amber-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 dark:bg-amber-600 dark:hover:bg-amber-500 dark:focus-visible:outline-amber-500"
+            >
+                Nova Especialidade
             </button>
-            <Dialog open={open} onClose={setOpen} className="relative z-10">
+            <Dialog
+                open={open}
+                initialFocus={firstInputRef}
+                onClose={setOpen}
+                className="relative z-10"
+            >
                 <DialogBackdrop
                     transition
                     className="fixed inset-0 bg-neutral-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in dark:bg-neutral-900/50"
@@ -48,13 +60,13 @@ export default function UpdateSpecialityModal({ specialty }: {specialty: Special
                                     as="h3"
                                     className="text-base font-semibold text-neutral-900 dark:text-white"
                                 >
-                                    Atualizando {specialty.name}
+                                    Nova Especialidade
                                 </DialogTitle>
                             </div>
                             <Form
-                                {...update.form(specialty)}
+                                {...store.form()}
                                 resetOnSuccess
-                                onSuccess={() => setOpen(false)}
+                                onSuccess={() => closeModal()}
                             >
                                 {({ processing, errors }) => (
                                     <>
@@ -68,11 +80,8 @@ export default function UpdateSpecialityModal({ specialty }: {specialty: Special
                                                     type="text"
                                                     name="name"
                                                     required
-                                                    defaultValue={
-                                                        specialty.name
-                                                    }
                                                     maxLength={100}
-                                                    autoFocus
+                                                    ref={firstInputRef}
                                                     tabIndex={1}
                                                 />
                                                 <InputError
@@ -127,13 +136,13 @@ export default function UpdateSpecialityModal({ specialty }: {specialty: Special
                                                             'invisible',
                                                     )}
                                                 >
-                                                    Atualizar
+                                                    Cadastrar
                                                 </span>
                                             </button>
                                             <button
                                                 type="button"
-                                                onClick={() => setOpen(false)}
-                                                className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-neutral-900 shadow-xs inset-ring-1 inset-ring-neutral-300 hover:bg-neutral-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20"
+                                                onClick={() => closeModal()}
+                                                className="mt-3 inline-flex w-full cursor-pointer justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-neutral-900 shadow-xs inset-ring-1 inset-ring-neutral-300 hover:bg-neutral-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20"
                                             >
                                                 Cancelar
                                             </button>

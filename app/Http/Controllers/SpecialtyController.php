@@ -15,7 +15,7 @@ class SpecialtyController extends Controller
     public function index()
     {
         return inertia('specialties/index', [
-            'specialties' => SpecialtyResource::collection(Specialty::all()->sortBy('name'))
+            'specialties' => SpecialtyResource::collection(Specialty::withCount('patients')->orderBy('name')->get())
         ]);
     }
 
@@ -40,7 +40,7 @@ class SpecialtyController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Edit the specified resource in storage.
      */
     public function update(UpdateSpecialtyRequest $request, Specialty $specialty)
     {
