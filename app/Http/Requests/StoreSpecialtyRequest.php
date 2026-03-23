@@ -16,13 +16,6 @@ class StoreSpecialtyRequest extends FormRequest
         return true;
     }
 
-    protected function prepareForValidation(): void
-    {
-        $this->merge([
-            'slug' => Str::slug($this->name)
-        ]);
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -32,7 +25,6 @@ class StoreSpecialtyRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:100',
-            'slug' => 'required|string|max:100|unique:specialties,slug',
             'limit' => 'required|integer|min:1'
         ];
     }

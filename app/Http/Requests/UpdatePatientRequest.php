@@ -20,7 +20,9 @@ class UpdatePatientRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'slug' => Str::slug($this->makeSlugFromName($this->name))
+            'slug' => Str::slug($this->makeSlugFromName($this->name)),
+            'allow_contact' => $this->allow_contact ?? false,
+            'contact' => $this->allow_contact ? $this->contact : null,
         ]);
     }
 
@@ -53,7 +55,7 @@ class UpdatePatientRequest extends FormRequest
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255|' . Rule::unique('patients')->ignore($this->patient->id),
             'dob' => 'required|date|date_format:Y-m-d|' . Rule::date()->beforeToday(),
-            'allow_contact' => 'required|boolean',
+            'allow_contact' => 'nullable|boolean',
             'contact' => 'nullable|string|max:15|regex:/\(\d{2}\)\s\d{4,5}-\d{4}/',
             'specialties' => 'nullable|array|exists:specialties,id',
         ];

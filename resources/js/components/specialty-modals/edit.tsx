@@ -20,7 +20,7 @@ import { Specialty } from '@/types';
 
 export default function Edit({ specialty }: {specialty: Specialty}) {
     const [open, setOpen] = useState(false);
-    const [limit, setLimit] = useState(specialty.limit);
+    const [limit, setLimit] = useState<string | number>(specialty.limit);
     const firstInputRef = useRef<HTMLInputElement>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +32,7 @@ export default function Edit({ specialty }: {specialty: Specialty}) {
             <button onClick={() => setOpen(true)} className="cursor-pointer">
                 <SquarePen className="size-5 text-green-600 hover:text-green-400" />
             </button>
-            <Dialog open={open} initialFocus={firstInputRef} onClose={setOpen} className="relative z-10">
+            <Dialog key={specialty.id} open={open} initialFocus={firstInputRef} onClose={setOpen} className="relative z-10">
                 <DialogBackdrop
                     transition
                     className="fixed inset-0 bg-neutral-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in dark:bg-neutral-900/50"
@@ -134,7 +134,7 @@ export default function Edit({ specialty }: {specialty: Specialty}) {
                                             <button
                                                 type="button"
                                                 onClick={() => setOpen(false)}
-                                                className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-neutral-900 shadow-xs inset-ring-1 inset-ring-neutral-300 hover:bg-neutral-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20"
+                                                className="mt-3 cursor-pointer hover:bg-neutral-100 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-neutral-900 shadow-xs inset-ring-1 inset-ring-neutral-300 hover:bg-neutral-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20"
                                             >
                                                 Cancelar
                                             </button>

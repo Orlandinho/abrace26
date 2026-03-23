@@ -46,6 +46,6 @@ export function formatPhone(value : string): string {
     }
 }
 
-export function onlyNumbers(value: string): number {
-    return Number(value.replace(/\D/g, ''));
+export function onlyNumbers(value: string): number | string {
+    return value.replace(/\D/g, '');
 }

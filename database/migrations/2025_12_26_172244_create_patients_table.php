@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->date('dob');
             $table->string('contact')->nullable();
-            $table->boolean('allow_contact')->default(false);
+            $table->boolean('allow_contact')->nullable()->default(false);
             $table->timestamps();
         });
     }

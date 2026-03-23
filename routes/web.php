@@ -8,16 +8,8 @@ use Inertia\Inertia;
 use Laravel\Fortify\Features;
 
 Route::get('/', function () {
-    return Inertia::render('welcome', [
-        'canRegister' => Features::enabled(Features::registration()),
-    ]);
+    return redirect('/pacientes');
 })->name('home');
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
-});
 
 Route::middleware(['auth'])->group(function () {
     Route::controller(PatientController::class)->group(function () {

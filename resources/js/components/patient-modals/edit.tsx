@@ -20,8 +20,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 
 export default function Edit({ patient, specialties } : { patient: Patient, specialties?: Specialty[] }) {
     const [open, setOpen] = useState(false);
-    const [phone, setPhone] = useState(patient.contact || '');
-    const [allowContact, setAllowContact] = useState(patient.allow_contact);
+    const [phone, setPhone] = useState(patient.contact ?? '');
+    const [allowContact, setAllowContact] = useState(patient.allow_contact ?? 0);
     const firstInputRef = useRef<HTMLInputElement>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,6 +46,7 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                 <SquarePen className="size-5 text-green-600 hover:text-green-400" />
             </button>
             <Dialog
+                key={patient.id}
                 open={open}
                 initialFocus={firstInputRef}
                 onClose={setOpen}
@@ -136,7 +137,7 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                                     />
                                                     <Label htmlFor="allow_contact">
                                                         Permite guardar o
-                                                        contacto?
+                                                        contato?
                                                     </Label>
                                                 </div>
                                             </div>
@@ -150,6 +151,7 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                                     type="text"
                                                     name="contact"
                                                     value={phone}
+                                                    required={Boolean(allowContact)}
                                                     maxLength={15}
                                                     onChange={handleChange}
                                                     tabIndex={4}
@@ -167,7 +169,7 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                                             Lista de
                                                             Especialidades
                                                         </legend>
-                                                        <div className="grid grid-cols-1 grid-cols-4 gap-x-6 gap-y-4 rounded-lg border border-neutral-800 px-4 py-3 sm:grid-cols-3">
+                                                        <div className="grid grid-cols-1 grid-cols-4 gap-x-6 gap-y-4 rounded-lg border border-neutral-200 px-4 py-3 sm:grid-cols-3">
                                                             {specialties.map(
                                                                 (specialty) => (
                                                                     <div
@@ -180,7 +182,7 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                                                             <div className="group grid size-4 grid-cols-1">
                                                                                 <Checkbox
                                                                                     id={
-                                                                                        specialty.slug
+                                                                                        specialty.name
                                                                                     }
                                                                                     name="specialties[]"
                                                                                     value={
@@ -199,7 +201,7 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                                                         <div className="text-sm/6">
                                                                             <label
                                                                                 htmlFor={
-                                                                                    specialty.slug
+                                                                                    specialty.name
                                                                                 }
                                                                                 className={cn(
                                                                                     'font-medium dark:text-white',
@@ -252,7 +254,7 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                             <button
                                                 type="button"
                                                 onClick={() => closeModal()}
-                                                className="mt-3 inline-flex w-full cursor-pointer justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-neutral-900 shadow-xs inset-ring-1 inset-ring-neutral-300 hover:bg-neutral-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20"
+                                                className="mt-3 inline-flex w-full cursor-pointer justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-neutral-900 shadow-xs inset-ring-1 inset-ring-neutral-300 hover:bg-neutral-50 sm:mt-0 sm:w-auto hover:bg-neutral-100 dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20"
                                             >
                                                 Cancelar
                                             </button>

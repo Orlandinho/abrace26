@@ -18,7 +18,7 @@ import { onlyNumbers } from '@/lib/utils';
 
 export default function Create() {
     const [open, setOpen] = useState(false);
-    const  [limit, setLimit] = useState('');
+    const  [limit, setLimit] = useState<string | number>('');
     const firstInputRef = useRef<HTMLInputElement>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

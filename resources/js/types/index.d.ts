@@ -40,6 +40,7 @@ export interface Appointment {
     patient: Patient;
     specialty: Specialty;
     status: number;
+    completed: string;
 }
 
 export interface Patient {
@@ -57,7 +58,6 @@ export interface Patient {
 export interface Specialty {
     id: number;
     name: string;
-    slug: string;
     limit: number;
     count: number;
     patient?: Patient;

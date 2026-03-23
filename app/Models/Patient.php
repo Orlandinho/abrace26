@@ -19,6 +19,6 @@ class Patient extends Model
 
     public function specialties(): BelongsToMany
     {
-        return $this->belongsToMany(Specialty::class)->withPivot('id', 'status');
+        return $this->belongsToMany(Specialty::class)->withPivot('id', 'status')->wherePivot('status', '!==', 2);
     }
 }

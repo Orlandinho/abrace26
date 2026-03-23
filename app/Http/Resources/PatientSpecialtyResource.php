@@ -19,6 +19,7 @@ class PatientSpecialtyResource extends JsonResource
             'status' => $this->status,
             'patient' => PatientResource::make($this->whenLoaded('patient')),
             'specialty' => SpecialtyResource::make($this->whenLoaded('specialty')),
+            'completed' => $this->updated_at
         ];
     }
 }

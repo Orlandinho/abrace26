@@ -7,6 +7,8 @@ import { isElder } from '@/lib/utils';
 import Delete from '@/components/patient-modals/delete';
 import Create from '@/components/patient-modals/create';
 import Edit from '@/components/patient-modals/edit';
+import { Input } from '@/components/ui/input';
+import { useMemo, useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -16,23 +18,39 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Index({ patients, specialties }: { patients: Patient[], specialties?: Specialty[] }) {
+    const [search, setSearch] = useState('');
+
+    const filteredPatients = useMemo(() => {
+        // Se não houver busca, retorna a lista original
+        if (!search.trim()) return patients;
+
+        const lowerCaseSearch = search.toLowerCase();
+
+        return patients.filter((p) => {
+            // Busca por Nome ou CPF (ou qualquer outro campo relevante)
+            return (
+                p.name.toLowerCase().includes(lowerCaseSearch)
+            );
+        });
+    }, [search, patients]);
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Pacientes" />
             <div className="my-8 flex h-full flex-1 flex-col overflow-x-auto px-2 sm:px-0">
                 <div>
-                    <div className="mx-auto max-w-5xl rounded-xl bg-neutral-900 p-4">
+                    <div className="mx-auto max-w-5xl rounded-xl bg-neutral-100 p-4 dark:bg-neutral-900">
                         {patients.length < 1 ? (
                             <div className="sm:flex sm:items-center">
-                                <div className="sm:flex-auto">
-                                    <h1 className="text-base font-semibold text-neutral-900 dark:text-white">
+                                <div className="text-neutral-800 sm:flex-auto dark:text-neutral-300">
+                                    <h1 className="text-base font-semibold">
                                         Ainda não há pacientes cadastrados.
                                     </h1>
-                                    <p className="mt-2 hidden text-sm text-neutral-700 lg:block dark:text-neutral-300">
+                                    <p className="mt-2 hidden text-sm lg:block">
                                         Clique no botão ao lado para cadastrar
                                         um novo paciente.
                                     </p>
-                                    <p className="mt-2 text-sm text-neutral-700 sm:block lg:hidden dark:text-neutral-300">
+                                    <p className="mt-2 text-sm text-neutral-800 sm:block lg:hidden dark:text-neutral-300">
                                         Clique no botão abaixo para cadastrar um
                                         novo paciente.
                                     </p>
@@ -43,9 +61,9 @@ export default function Index({ patients, specialties }: { patients: Patient[], 
                             </div>
                         ) : (
                             <>
-                                <div className="sm:flex sm:items-center mb-8">
+                                <div className="mb-8 sm:flex sm:items-center">
                                     <div className="sm:flex-auto">
-                                        <h1 className="text-base font-semibold text-neutral-900 dark:text-white">
+                                        <h1 className="text-base font-semibold text-neutral-900 dark:text-neutral-100">
                                             Pacientes
                                         </h1>
                                         <p className="mt-2 text-sm text-neutral-700 dark:text-neutral-300">
@@ -53,10 +71,18 @@ export default function Index({ patients, specialties }: { patients: Patient[], 
                                             cadastrados no sistema.
                                         </p>
                                     </div>
-                                    <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+                                    <div className="mt-4 sm:mt-0 sm:ml-16 flex">
                                         <Create specialties={specialties} />
+                                        <Input className='max-w-48 ml-4'
+                                               placeholder='Pesquisar paciente...'
+                                               value={search}
+                                               onChange={(e) => setSearch(e.target.value)}
+                                        />
                                     </div>
                                 </div>
+                                {filteredPatients.length < 1 ? (
+                                    <p className="text-neutral-800 dark:text-neutral-300">Não há pacientes com esse nome</p>
+                                ) :
                                 <Table>
                                     <TableHead>
                                         <TableRow>
@@ -72,7 +98,7 @@ export default function Index({ patients, specialties }: { patients: Patient[], 
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {patients.map((patient) => (
+                                        {filteredPatients.map((patient) => (
                                             <TableRow key={patient.id}>
                                                 <TableCell className="font-medium">
                                                     <Link
@@ -85,11 +111,15 @@ export default function Index({ patients, specialties }: { patients: Patient[], 
                                                     </Link>
                                                 </TableCell>
                                                 <TableCell>
-                                                    <span className={
-                                                        isElder(patient.age)
-                                                            ? 'text-red-400'
-                                                            : ''
-                                                    }> {patient.age}
+                                                    <span
+                                                        className={
+                                                            isElder(patient.age)
+                                                                ? 'text-red-400'
+                                                                : ''
+                                                        }
+                                                    >
+                                                        {' '}
+                                                        {patient.age}
                                                     </span>
                                                 </TableCell>
                                                 <TableCell>
@@ -97,20 +127,24 @@ export default function Index({ patients, specialties }: { patients: Patient[], 
                                                         'Sem contato cadastrado'}
                                                 </TableCell>
                                                 <TableCell>
-                                                    {patient.specialties?.length}
+                                                    {
+                                                        patient.specialties
+                                                            ?.length
+                                                    }
                                                 </TableCell>
-                                                <TableCell
-                                                    className='flex gap-x-3'
-                                                >
-                                                    <Edit patient={patient} specialties={specialties} />
-                                                    <Delete
+                                                <TableCell className="flex gap-x-3">
+                                                    <Edit
                                                         patient={patient}
+                                                        specialties={
+                                                            specialties
+                                                        }
                                                     />
+                                                    <Delete patient={patient} />
                                                 </TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
-                                </Table>
+                                </Table>}
                             </>
                         )}
                     </div>

@@ -23,7 +23,7 @@ export function TableHead({
     return (
         <thead
             {...props}
-            className={'text-neutral-500 dark:text-neutral-400 ' + className}
+            className={'text-neutral-800 dark:text-neutral-400 ' + className}
         />
     );
 }
@@ -37,7 +37,7 @@ export function TableHeader({
             {...props}
             scope="col"
             className={
-                'px-3 py-3.5 text-left text-sm font-semibold first:pr-3 first:pl-4 last:text-right ' +
+                'px-3 py-3.5 text-left text-sm font-semibold first:pr-3 first:pl-4 last:text-right text-neutral-800 dark:text-neutral-400 ' +
                 className
             }
         />
@@ -74,7 +74,7 @@ export function TableCell({
         <td
             {...props}
             className={
-                'px-3 py-3 text-sm whitespace-nowrap text-neutral-500 first:pr-3 first:pl-4 first:font-medium last:text-right dark:text-neutral-400 first:dark:text-white ' +
+                'px-3 py-3 text-sm whitespace-nowrap text-neutral-600 first:pr-3 first:pl-4 first:font-medium last:text-right dark:text-neutral-400 first:dark:text-white ' +
                 className
             }
         />

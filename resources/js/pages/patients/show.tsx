@@ -60,7 +60,7 @@ export default function Show({ appointments, patient }: { appointments: Appointm
                                     )}
                                     {appointments &&
                                         appointments.length > 0 && (
-                                            <div className="border-t border-neutral-100 px-4 py-6 sm:col-span-2 sm:px-0 dark:border-white/10">
+                                            <div className="border-t border-neutral-100 px-4 pt-6 sm:col-span-2 sm:px-0 dark:border-white/10">
                                                 <dt className="text-sm/6 font-medium text-neutral-900 dark:text-white">
                                                     Consultas
                                                 </dt>
@@ -69,10 +69,10 @@ export default function Show({ appointments, patient }: { appointments: Appointm
                                                         {appointments.map(
                                                             (appointment) => (
                                                                 <li key={ appointment.id } className="grid grid-cols-4 gap-x-4 py-2" >
-                                                                    <div className="col-span-1">
+                                                                    <div className="md:col-span-1 col-span-2">
                                                                         { appointment.specialty.name }
                                                                     </div>
-                                                                    <div className="col-span-1">
+                                                                    <div className="md:col-span-1 col-span-2">
                                                                         <EditStatus appointment={appointment} />
                                                                     </div>
                                                                 </li>

@@ -127,7 +127,7 @@ export default function Create({ specialties } : { specialties?: Specialty[] }) 
                                                     />
                                                     <Label htmlFor="allow_contact">
                                                         Permite guardar o
-                                                        contacto?
+                                                        contato?
                                                     </Label>
                                                 </div>
                                             </div>
@@ -142,6 +142,7 @@ export default function Create({ specialties } : { specialties?: Specialty[] }) 
                                                     name="contact"
                                                     value={phone}
                                                     maxLength={15}
+                                                    required={allowContact}
                                                     onChange={handleChange}
                                                     tabIndex={4}
                                                 />
@@ -158,7 +159,7 @@ export default function Create({ specialties } : { specialties?: Specialty[] }) 
                                                             Lista de
                                                             Especialidades
                                                         </legend>
-                                                        <div className="grid grid-cols-1 grid-cols-4 gap-x-6 gap-y-4 rounded-lg border border-neutral-800 px-4 py-3 sm:grid-cols-3">
+                                                        <div className="grid grid-cols-1 grid-cols-4 gap-x-6 gap-y-4 rounded-lg border border-neutral-200 px-4 py-3 sm:grid-cols-3">
                                                             {specialties?.map(
                                                                 (specialty) => (
                                                                     <div
@@ -175,7 +176,7 @@ export default function Create({ specialties } : { specialties?: Specialty[] }) 
                                                                                         specialty.limit
                                                                                     }
                                                                                     id={
-                                                                                        specialty.slug
+                                                                                        specialty.name
                                                                                     }
                                                                                     name="specialties[]"
                                                                                     value={
@@ -190,7 +191,7 @@ export default function Create({ specialties } : { specialties?: Specialty[] }) 
                                                                         <div className="text-sm/6">
                                                                             <label
                                                                                 htmlFor={
-                                                                                    specialty.slug
+                                                                                    specialty.name
                                                                                 }
                                                                                 className={cn(
                                                                                     'font-medium dark:text-white',
@@ -244,7 +245,7 @@ export default function Create({ specialties } : { specialties?: Specialty[] }) 
                                             <button
                                                 type="button"
                                                 onClick={() => closeModal()}
-                                                className="mt-3 inline-flex w-full cursor-pointer justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-neutral-900 shadow-xs inset-ring-1 inset-ring-neutral-300 hover:bg-neutral-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20"
+                                                className="mt-3 inline-flex w-full cursor-pointer justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-neutral-900 shadow-xs inset-ring-1 inset-ring-neutral-300 hover:bg-neutral-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20 hover:bg-neutral-100"
                                             >
                                                 Cancelar
                                             </button>

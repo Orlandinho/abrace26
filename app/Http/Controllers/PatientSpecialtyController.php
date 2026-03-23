@@ -13,7 +13,7 @@ class PatientSpecialtyController extends Controller
     public function index()
     {
         return inertia('appointments/index', [
-            'appointments' => PatientSpecialtyResource::collection(PatientSpecialty::with(['patient', 'specialty'])->get())
+            'appointments' => PatientSpecialtyResource::collection(PatientSpecialty::with(['patient', 'specialty'])->orderByDesc('status')->get())
         ]);
     }
 
