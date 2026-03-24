@@ -1,3 +1,4 @@
+/*
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import {
@@ -337,3 +338,4 @@ export default function TwoFactorSetupModal({
         </Dialog>
     );
 }
+*/
