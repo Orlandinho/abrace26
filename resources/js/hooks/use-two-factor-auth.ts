@@ -1,3 +1,4 @@
+/*
 import { qrCode, recoveryCodes, secretKey } from '@/routes/two-factor';
 import { useCallback, useMemo, useState } from 'react';
 
@@ -102,3 +103,4 @@ export const useTwoFactorAuth = () => {
         fetchRecoveryCodes,
     };
 };
+*/
