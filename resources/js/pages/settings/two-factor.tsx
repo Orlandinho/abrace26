@@ -1,3 +1,4 @@
+/*
 import HeadingSmall from '@/components/heading-small';
 import TwoFactorRecoveryCodes from '@/components/two-factor-recovery-codes';
 import TwoFactorSetupModal from '@/components/two-factor-setup-modal';
@@ -133,3 +134,4 @@ export default function TwoFactor({
         </AppLayout>
     );
 }
+*/
