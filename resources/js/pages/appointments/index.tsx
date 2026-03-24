@@ -1,14 +1,15 @@
 import Delete from '@/components/appointment-modals/delete';
 import UpdateStatus from '@/components/appointment-modals/edit-status';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/table';
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from '@/components/table';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue
+} from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
 import { isElder } from '@/lib/utils';
 import { index } from '@/routes/appointments';
@@ -16,6 +17,8 @@ import { Appointment, type BreadcrumbItem } from '@/types';
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
 import { Head } from '@inertiajs/react';
 import { useMemo, useState } from 'react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -27,7 +30,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function Index({ appointments }: { appointments: Appointment[] }) {
 
     const [specialtyFilter, setSpecialtyFilter] = useState("all");
-    const [search, setSearch] = useState('');
+    const [elderly, setElderly] = useState<boolean>(false);
 
     const uniqueSpecialties = useMemo(() => {
         const names = appointments.map(a => a.specialty.name).filter(Boolean);
@@ -36,35 +39,48 @@ export default function Index({ appointments }: { appointments: Appointment[] })
     }, [appointments]);
 
     const filteredAppointments = useMemo(() => {
-        if (specialtyFilter === 'all') return appointments;
-
-        return appointments.filter(
-            (app) => app.specialty.name === specialtyFilter,
-        );
+        return appointments.filter((app) => {
+            return (
+                specialtyFilter === 'all' ||
+                app.specialty.name === specialtyFilter
+            );
+        });
     }, [specialtyFilter, appointments]);
 
-    const categories = [
-        {
-            title: 'Consultas Em Andamento',
-            total: filteredAppointments.filter((a) => [0, 1].includes(a.status))
-                .length,
-            appointments: filteredAppointments.filter((a) =>
-                [0, 1].includes(a.status),
-            ),
-        },
-        {
-            title: 'Consultas Encerradas',
-            total: filteredAppointments.filter((a) => a.status === 2).length,
-            appointments: filteredAppointments
-                .filter((a) => a.status === 2)
-                .sort((a, b) => {
-                    const dataA = new Date(a.completed);
-                    const dataB = new Date(b.completed);
+    const categories = useMemo(() => {
+        const applyElderlyFilter = (app: Appointment) => {
+            if (!elderly) return true;
+            const ageNumber = Number(app.patient.age.split(' ')[0]);
+            return ageNumber >= 60;
+        };
 
-                    return dataB.getTime() - dataA.getTime();
-                }),
-        },
-    ];
+        return [
+            {
+                title: 'Consultas Em Andamento',
+                // Filtramos por status E por idade simultaneamente
+                appointments: filteredAppointments.filter(
+                    (a) => [0, 1].includes(a.status) && applyElderlyFilter(a)
+                ),
+                get total() {
+                    return this.appointments.length;
+                },
+            },
+            {
+                title: 'Consultas Encerradas',
+                appointments: filteredAppointments
+                    .filter((a) => a.status === 2 && applyElderlyFilter(a))
+                    .sort((a, b) => {
+                        const dataA = new Date(a.completed);
+                        const dataB = new Date(b.completed);
+                        return dataB.getTime() - dataA.getTime();
+                    }),
+                get total() {
+                    return this.appointments.length;
+                },
+            },
+        ];
+    }, [filteredAppointments, elderly]);
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Consultas" />
@@ -98,13 +114,16 @@ export default function Index({ appointments }: { appointments: Appointment[] })
                                         ))}
                                     </TabList>
 
-                                    <div className="my-4 sm:ml-1">
+                                    <div className="my-4 sm:ml-1 sm:flex">
                                         <Select
                                             value={specialtyFilter}
                                             onValueChange={setSpecialtyFilter}
                                         >
-                                            <SelectTrigger className="w-full max-w-60">
-                                                <SelectValue placeholder="Selecione uma especialidade" />
+                                            <SelectTrigger className="w-full max-w-46 sm:max-w-36">
+                                                <SelectValue
+                                                    placeholder="Selecione uma especialidade"
+                                                    tabIndex={1}
+                                                />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 <SelectGroup>
@@ -132,6 +151,26 @@ export default function Index({ appointments }: { appointments: Appointment[] })
                                                 </SelectGroup>
                                             </SelectContent>
                                         </Select>
+
+                                        <div className="mt-4 flex items-center space-x-3 sm:mt-0 sm:ml-4">
+                                            <Checkbox
+                                                id="age"
+                                                name="age"
+                                                checked={elderly}
+                                                onCheckedChange={(checked) => {
+                                                    setElderly(
+                                                        checked === true,
+                                                    );
+                                                }}
+                                                tabIndex={2}
+                                            />
+                                            <Label
+                                                className="text-sm"
+                                                htmlFor="age"
+                                            >
+                                                +60 anos
+                                            </Label>
+                                        </div>
                                     </div>
 
                                     <TabPanels>

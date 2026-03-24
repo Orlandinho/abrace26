@@ -19,13 +19,14 @@ import { Patient, Specialty } from '@/types';
 import { Checkbox } from '@/components/ui/checkbox';
 
 export default function Edit({ patient, specialties } : { patient: Patient, specialties?: Specialty[] }) {
+
     const [open, setOpen] = useState(false);
     const [phone, setPhone] = useState(patient.contact ?? '');
     const [allowContact, setAllowContact] = useState(patient.allow_contact ?? 0);
     const firstInputRef = useRef<HTMLInputElement>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPhone(formatPhone(e.target.value));
+        return setPhone(formatPhone(e.target.value));
     };
 
     const selectedIds = (patient.specialties ?? []).map((s) => s.id);
@@ -46,7 +47,6 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                 <SquarePen className="size-5 text-green-600 hover:text-green-400" />
             </button>
             <Dialog
-                key={patient.id}
                 open={open}
                 initialFocus={firstInputRef}
                 onClose={setOpen}
@@ -60,6 +60,7 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                 <div className="fixed top-0 z-10 w-screen overflow-y-auto md:inset-0">
                     <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
                         <DialogPanel
+                            key={patient.id}
                             transition
                             className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-2xl sm:p-6 data-closed:sm:translate-y-0 data-closed:sm:scale-95 dark:bg-neutral-900 dark:outline dark:-outline-offset-1 dark:outline-white/10"
                         >
@@ -73,7 +74,6 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                             </div>
                             <Form
                                 {...update.form(patient)}
-                                resetOnSuccess
                                 onSuccess={() => closeModal()}
                             >
                                 {({ processing, errors }) => (
@@ -143,15 +143,18 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                             </div>
 
                                             {Boolean(allowContact) && <div className="relative grid gap-y-2 sm:col-span-3">
-                                                <Label htmlFor="contact">
+                                                <Label
+                                                    className={allowContact ? '' : 'text-neutral-400'}
+                                                    htmlFor="contact">
                                                     Celular/WhatsApp
                                                 </Label>
                                                 <Input
                                                     id="contact"
                                                     type="text"
                                                     name="contact"
+                                                    className={allowContact ? 'cursor-text' : 'cursor-not-allowed'}
                                                     value={phone}
-                                                    required={Boolean(allowContact)}
+                                                    required={allowContact}
                                                     maxLength={15}
                                                     onChange={handleChange}
                                                     tabIndex={4}
@@ -169,7 +172,7 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                                             Lista de
                                                             Especialidades
                                                         </legend>
-                                                        <div className="grid grid-cols-1 grid-cols-4 gap-x-6 gap-y-4 rounded-lg border border-neutral-200 px-4 py-3 sm:grid-cols-3">
+                                                        <div className="grid grid-cols-1 grid-cols-4 gap-x-6 gap-y-4 rounded-lg border border-neutral-200 dark:border-neutral-800 px-4 py-3 sm:grid-cols-3">
                                                             {specialties.map(
                                                                 (specialty) => (
                                                                     <div

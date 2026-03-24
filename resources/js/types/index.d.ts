@@ -51,6 +51,7 @@ export interface Patient {
     age: string;
     allow_contact: boolean;
     contact?: string;
+    updated_at: string;
     specialties?: Specialty[];
     pivot?: Pivot[]
 }

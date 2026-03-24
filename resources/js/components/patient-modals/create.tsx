@@ -119,7 +119,7 @@ export default function Create({ specialties } : { specialties?: Specialty[] }) 
                                                             checked: boolean,
                                                         ) => {
                                                             setAllowContact(
-                                                                checked
+                                                                checked,
                                                             );
                                                         }}
                                                         value={1}
@@ -132,91 +132,98 @@ export default function Create({ specialties } : { specialties?: Specialty[] }) 
                                                 </div>
                                             </div>
 
-                                            {allowContact && <div className="relative grid gap-y-2 sm:col-span-3">
-                                                <Label htmlFor="contact">
-                                                    Celular/WhatsApp
-                                                </Label>
-                                                <Input
-                                                    id="contact"
-                                                    type="text"
-                                                    name="contact"
-                                                    value={phone}
-                                                    maxLength={15}
-                                                    required={allowContact}
-                                                    onChange={handleChange}
-                                                    tabIndex={4}
-                                                />
-                                                <InputError
-                                                    message={errors.contact}
-                                                    className="absolute top-full mt-1"
-                                                />
-                                            </div>}
-
-                                            {(specialties && specialties.length > 0) && (
-                                                <div className="relative grid gap-y-2 sm:col-span-6">
-                                                    <fieldset>
-                                                        <legend className="mb-4 text-sm leading-none font-medium">
-                                                            Lista de
-                                                            Especialidades
-                                                        </legend>
-                                                        <div className="grid grid-cols-1 grid-cols-4 gap-x-6 gap-y-4 rounded-lg border border-neutral-200 px-4 py-3 sm:grid-cols-3">
-                                                            {specialties?.map(
-                                                                (specialty) => (
-                                                                    <div
-                                                                        key={
-                                                                            specialty.id
-                                                                        }
-                                                                        className="col-span-2 flex gap-3 sm:col-span-1"
-                                                                    >
-                                                                        <div className="flex h-6 shrink-0 items-center">
-                                                                            <div className="group grid size-4 grid-cols-1">
-                                                                                <Checkbox
-                                                                                    disabled={
-                                                                                        specialty.count >=
-                                                                                        specialty.limit
-                                                                                    }
-                                                                                    id={
-                                                                                        specialty.name
-                                                                                    }
-                                                                                    name="specialties[]"
-                                                                                    value={
-                                                                                        specialty.id
-                                                                                    }
-                                                                                    tabIndex={
-                                                                                        5
-                                                                                    }
-                                                                                />
-                                                                            </div>
-                                                                        </div>
-                                                                        <div className="text-sm/6">
-                                                                            <label
-                                                                                htmlFor={
-                                                                                    specialty.name
-                                                                                }
-                                                                                className={cn(
-                                                                                    'font-medium dark:text-white',
-                                                                                    specialty.count >=
-                                                                                        specialty.limit
-                                                                                        ? 'text-neutral-400 dark:text-white/35'
-                                                                                        : 'text-neutral-900 dark:text-white',
-                                                                                )}
-                                                                            >
-                                                                                {
-                                                                                    specialty.name
-                                                                                }
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                ),
-                                                            )}
-                                                        </div>
-                                                    </fieldset>
+                                            {allowContact && (
+                                                <div className="relative grid gap-y-2 sm:col-span-3">
+                                                    <Label htmlFor="contact">
+                                                        Celular/WhatsApp
+                                                    </Label>
+                                                    <Input
+                                                        id="contact"
+                                                        type="text"
+                                                        name="contact"
+                                                        value={phone}
+                                                        maxLength={15}
+                                                        required={allowContact}
+                                                        onChange={handleChange}
+                                                        tabIndex={4}
+                                                    />
                                                     <InputError
                                                         message={errors.contact}
                                                         className="absolute top-full mt-1"
                                                     />
                                                 </div>
                                             )}
+
+                                            {specialties &&
+                                                specialties.length > 0 && (
+                                                    <div className="relative grid gap-y-2 sm:col-span-6">
+                                                        <fieldset>
+                                                            <legend className="mb-4 text-sm leading-none font-medium">
+                                                                Lista de
+                                                                Especialidades
+                                                            </legend>
+                                                            <div className="grid grid-cols-1 grid-cols-4 gap-x-6 gap-y-4 rounded-lg border border-neutral-200 px-4 py-3 sm:grid-cols-3 dark:border-neutral-800">
+                                                                {specialties?.map(
+                                                                    (
+                                                                        specialty,
+                                                                    ) => (
+                                                                        <div
+                                                                            key={
+                                                                                specialty.id
+                                                                            }
+                                                                            className="col-span-2 flex gap-3 sm:col-span-1"
+                                                                        >
+                                                                            <div className="flex h-6 shrink-0 items-center">
+                                                                                <div className="group grid size-4 grid-cols-1">
+                                                                                    <Checkbox
+                                                                                        disabled={
+                                                                                            specialty.count >=
+                                                                                            specialty.limit
+                                                                                        }
+                                                                                        id={
+                                                                                            specialty.name
+                                                                                        }
+                                                                                        name="specialties[]"
+                                                                                        value={
+                                                                                            specialty.id
+                                                                                        }
+                                                                                        tabIndex={
+                                                                                            5
+                                                                                        }
+                                                                                    />
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="text-sm/6">
+                                                                                <label
+                                                                                    htmlFor={
+                                                                                        specialty.name
+                                                                                    }
+                                                                                    className={cn(
+                                                                                        'font-medium dark:text-white',
+                                                                                        specialty.count >=
+                                                                                            specialty.limit
+                                                                                            ? 'text-neutral-400 dark:text-white/35'
+                                                                                            : 'text-neutral-900 dark:text-white',
+                                                                                    )}
+                                                                                >
+                                                                                    {
+                                                                                        specialty.name
+                                                                                    }
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                    ),
+                                                                )}
+                                                            </div>
+                                                        </fieldset>
+                                                        <InputError
+                                                            message={
+                                                                errors.contact
+                                                            }
+                                                            className="absolute top-full mt-1"
+                                                        />
+                                                    </div>
+                                                )}
                                         </div>
                                         <div className="mt-6 sm:flex sm:flex-row-reverse">
                                             <button
@@ -245,7 +252,7 @@ export default function Create({ specialties } : { specialties?: Specialty[] }) 
                                             <button
                                                 type="button"
                                                 onClick={() => closeModal()}
-                                                className="mt-3 inline-flex w-full cursor-pointer justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-neutral-900 shadow-xs inset-ring-1 inset-ring-neutral-300 hover:bg-neutral-50 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20 hover:bg-neutral-100"
+                                                className="mt-3 inline-flex w-full cursor-pointer justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-neutral-900 shadow-xs inset-ring-1 inset-ring-neutral-300 hover:bg-neutral-50 hover:bg-neutral-100 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20"
                                             >
                                                 Cancelar
                                             </button>

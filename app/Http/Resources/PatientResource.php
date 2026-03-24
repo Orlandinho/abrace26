@@ -23,6 +23,7 @@ class PatientResource extends JsonResource
             'age' => $this->dob->age > 1 ? $this->dob->age . ' anos' : $this->dob->age . ' ano',
             'contact' => $this->contact,
             'allow_contact' => $this->allow_contact,
+            'updated_at' => $this->updated_at,
             'specialties' => SpecialtyResource::collection($this->whenLoaded('specialties')),
 
         ];

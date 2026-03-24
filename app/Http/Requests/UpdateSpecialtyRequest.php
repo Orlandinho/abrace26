@@ -16,14 +16,6 @@ class UpdateSpecialtyRequest extends FormRequest
         return true;
     }
 
-    protected function prepareForValidation(): void
-    {
-
-        $this->merge([
-            'slug' => Str::slug($this->name)
-        ]);
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -33,7 +25,6 @@ class UpdateSpecialtyRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:100',
-            'slug' => 'required|string|max:100|' . Rule::unique('specialties')->ignore($this->specialty->id),
             'limit' => 'required|integer|min:1'
         ];
     }
