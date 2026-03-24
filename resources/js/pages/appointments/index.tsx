@@ -57,7 +57,6 @@ export default function Index({ appointments }: { appointments: Appointment[] })
         return [
             {
                 title: 'Consultas Em Andamento',
-                // Filtramos por status E por idade simultaneamente
                 appointments: filteredAppointments.filter(
                     (a) => [0, 1].includes(a.status) && applyElderlyFilter(a)
                 ),

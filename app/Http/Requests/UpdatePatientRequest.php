@@ -56,7 +56,7 @@ class UpdatePatientRequest extends FormRequest
             'slug' => 'required|string|max:255|' . Rule::unique('patients')->ignore($this->patient->id),
             'dob' => 'required|date|date_format:Y-m-d|' . Rule::date()->beforeToday(),
             'allow_contact' => 'nullable|boolean',
-            'contact' => 'nullable|string|max:15|regex:/\(\d{2}\)\s\d{4,5}-\d{4}/',
+            'contact' => 'nullable|string|max:10|regex:/\d{4,5}-\d{4}/',
             'specialties' => 'nullable|array|exists:specialties,id',
         ];
     }

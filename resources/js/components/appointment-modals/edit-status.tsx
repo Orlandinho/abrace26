@@ -28,7 +28,7 @@ export default function EditStatus({ appointment }: { appointment: Appointment }
 
     const setButtonText: Record<Appointment['status'], string> = {
         0: 'Aguardando',
-        1: 'Em andamento',
+        1: 'Em atendimento',
         2: 'Encerrada',
     }
 

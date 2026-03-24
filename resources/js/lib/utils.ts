@@ -24,26 +24,13 @@ export function isElder(age: string): boolean {
 }
 
 export function formatPhone(value : string): string {
-    if (!value) return "";
+    if (!value) return '';
 
-    // Remove tudo que não for número
-    const digits = value.replace(/\D/g, "");
+    const digits = value.replace(/\D/g, '');
 
-    // Limita a 11 dígitos
-    const limited = digits.substring(0, 11);
+    const limited = digits.substring(0, 9);
 
-    // Aplica a formatação dinamicamente
-    if (limited.length <= 10) {
-        // Formato Fixo: (11) 4444-4444
-        return limited
-            .replace(/(\d{2})(\d)/, "($1) $2")
-            .replace(/(\d{4})(\d)/, "$1-$2");
-    } else {
-        // Formato Celular: (11) 99999-9999
-        return limited
-            .replace(/(\d{2})(\d)/, "($1) $2")
-            .replace(/(\d{5})(\d)/, "$1-$2");
-    }
+    return limited.replace(/^(\d{4,5})(\d{4}).*/, '$1-$2');
 }
 
 export function onlyNumbers(value: string): number | string {

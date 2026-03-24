@@ -142,7 +142,7 @@ export default function Create({ specialties } : { specialties?: Specialty[] }) 
                                                         type="text"
                                                         name="contact"
                                                         value={phone}
-                                                        maxLength={15}
+                                                        maxLength={10}
                                                         required={allowContact}
                                                         onChange={handleChange}
                                                         tabIndex={4}
