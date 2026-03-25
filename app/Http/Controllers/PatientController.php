@@ -10,6 +10,7 @@ use App\Http\Resources\SpecialtyResource;
 use App\Models\Patient;
 use App\Models\PatientSpecialty;
 use App\Models\Specialty;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
 class PatientController extends Controller
