@@ -17,6 +17,13 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->date('dob');
             $table->string('contact')->nullable();
+            $table->string('height')->nullable();
+            $table->string('weight')->nullable();
+            $table->string('pression')->nullable();
+            $table->string('glicemia')->nullable();
+            $table->string('temperature')->nullable();
+            $table->string('breath')->nullable();
+            $table->string('pulse')->nullable();
             $table->boolean('allow_contact')->nullable()->default(false);
             $table->timestamps();
         });

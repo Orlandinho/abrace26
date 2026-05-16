@@ -14,7 +14,7 @@ import { Input } from '@/components/ui/input';
 import InputError from '@/components/input-error';
 import { LoaderCircle, SquarePen } from 'lucide-react';
 import { clsx } from 'clsx';
-import { cn, formatPhone } from '@/lib/utils';
+import { cn, formatHeight, formatPhone, formatWeight } from '@/lib/utils';
 import { Patient, Specialty } from '@/types';
 import { Checkbox } from '@/components/ui/checkbox';
 
@@ -23,10 +23,20 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
     const [open, setOpen] = useState(false);
     const [phone, setPhone] = useState(patient.contact ?? '');
     const [allowContact, setAllowContact] = useState(patient.allow_contact ?? 0);
+    const [height, setHeight] = useState(patient.height ??'');
+    const [weight, setWeight] = useState(patient.weight ?? '');
     const firstInputRef = useRef<HTMLInputElement>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         return setPhone(formatPhone(e.target.value));
+    };
+
+    const handleHeight = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setHeight(formatHeight(e.target.value));
+    };
+
+    const handleWeight = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setWeight(formatWeight(e.target.value));
     };
 
     const selectedIds = (patient.specialties ?? []).map((s) => s.id);
@@ -117,6 +127,48 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                                 />
                                             </div>
 
+                                            <div className="relative grid gap-y-2 sm:col-span-2">
+                                                <Label htmlFor="height">
+                                                    Altura
+                                                </Label>
+                                                <Input
+                                                    id="height"
+                                                    type="text"
+                                                    name="height"
+                                                    suffix="m"
+                                                    value={height}
+                                                    tabIndex={3}
+                                                    maxLength={4}
+                                                    inputMode="numeric"
+                                                    onChange={handleHeight}
+                                                />
+                                                <InputError
+                                                    message={errors.dob}
+                                                    className="absolute top-full mt-1"
+                                                />
+                                            </div>
+
+                                            <div className="relative grid gap-y-2 sm:col-span-2">
+                                                <Label htmlFor="weight">
+                                                    Peso
+                                                </Label>
+                                                <Input
+                                                    id="weight"
+                                                    type="text"
+                                                    suffix="kg"
+                                                    name="weight"
+                                                    value={weight}
+                                                    tabIndex={4}
+                                                    inputMode="numeric"
+                                                    maxLength={6}
+                                                    onChange={handleWeight}
+                                                />
+                                                <InputError
+                                                    message={errors.dob}
+                                                    className="absolute top-full mt-1"
+                                                />
+                                            </div>
+
                                             <div className="relative grid gap-y-2 sm:col-span-3">
                                                 <div className="flex items-center space-x-3">
                                                     <Checkbox
@@ -133,7 +185,7 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                                                 checked
                                                             );
                                                         }}
-                                                        tabIndex={3}
+                                                        tabIndex={5}
                                                     />
                                                     <Label htmlFor="allow_contact">
                                                         Permite guardar o
@@ -157,7 +209,7 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                                     required={allowContact}
                                                     maxLength={10}
                                                     onChange={handleChange}
-                                                    tabIndex={4}
+                                                    tabIndex={6}
                                                 />
                                                 <InputError
                                                     message={errors.contact}
@@ -196,7 +248,7 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                                                                         specialty.id
                                                                                     )}
                                                                                     tabIndex={
-                                                                                        5
+                                                                                        7
                                                                                     }
                                                                                 />
                                                                             </div>
@@ -233,6 +285,7 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                         <div className="mt-6 sm:flex sm:flex-row-reverse">
                                             <button
                                                 disabled={processing}
+                                                tabIndex={8}
                                                 className={clsx(
                                                     'relative inline-flex w-full cursor-pointer justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 sm:ml-3 sm:w-auto dark:shadow-none',
                                                     processing
@@ -256,6 +309,7 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                             </button>
                                             <button
                                                 type="button"
+                                                tabIndex={9}
                                                 onClick={() => closeModal()}
                                                 className="mt-3 inline-flex w-full cursor-pointer justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-neutral-900 shadow-xs inset-ring-1 inset-ring-neutral-300 hover:bg-neutral-50 sm:mt-0 sm:w-auto hover:bg-neutral-100 dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20"
                                             >

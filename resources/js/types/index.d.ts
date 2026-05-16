@@ -49,8 +49,16 @@ export interface Patient {
     slug: string;
     dob: string;
     age: string;
-    allow_contact: boolean;
+    nasc: string;
     contact?: string;
+    allow_contact: boolean;
+    height?: string;
+    weight?: string;
+    pression?: string;
+    glicemia?: string;
+    temperature?: string;
+    breath?: string;
+    pulse?: string;
     updated_at: string;
     specialties?: Specialty[];
     pivot?: Pivot[]

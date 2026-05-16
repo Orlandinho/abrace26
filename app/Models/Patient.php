@@ -13,7 +13,7 @@ class Patient extends Model
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
-    protected $fillable = ['name', 'slug', 'dob', 'allow_contact', 'contact'];
+    protected $fillable = ['name', 'slug', 'dob', 'allow_contact', 'contact', 'height', 'weight', 'pression', 'glicemia', 'temperature', 'breath', 'pulse'];
 
     protected $casts = ['dob' => 'datetime'];
 

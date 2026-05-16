@@ -1,6 +1,7 @@
 import { home } from '@/routes';
 import { Link } from '@inertiajs/react';
 import { type PropsWithChildren } from 'react';
+const logoUrl = import.meta.env.VITE_APP_LOGO_URL;
 
 interface AuthLayoutProps {
     name?: string;
@@ -22,7 +23,14 @@ export default function AuthSimpleLayout({
                             href={home()}
                             className="flex flex-col items-center gap-2 font-medium"
                         >
-                            <img src="/storage/img/abrace_logo.png" alt="logo" width={150} height={150} />
+                            <img
+                                src={logoUrl}
+                                alt="logo"
+                                width={150}
+                                height={150}
+                                loading="eager"
+                                fetchPriority="high"
+                            />
                             <span className="sr-only">{title}</span>
                         </Link>
 

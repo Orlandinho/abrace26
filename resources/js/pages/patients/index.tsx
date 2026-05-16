@@ -71,9 +71,9 @@ export default function Index({ patients, specialties }: { patients: Patient[], 
                                             cadastrados no sistema.
                                         </p>
                                     </div>
-                                    <div className="mt-4 sm:mt-0 sm:ml-16 flex">
+                                    <div className="mt-4 sm:mt-0 flex items-center">
                                         <Create specialties={specialties} />
-                                        <Input className='max-w-48 ml-4'
+                                        <Input className='max-w-42 ml-4'
                                                placeholder='Pesquisar paciente...'
                                                value={search}
                                                onChange={(e) => setSearch(e.target.value)}

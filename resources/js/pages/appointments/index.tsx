@@ -15,10 +15,11 @@ import { isElder } from '@/lib/utils';
 import { index } from '@/routes/appointments';
 import { Appointment, type BreadcrumbItem } from '@/types';
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
-import { Head } from '@inertiajs/react';
-import { useMemo, useState } from 'react';
+import { Head, router } from '@inertiajs/react';
+import { useEffect, useMemo, useState } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
+import Echo from 'laravel-echo';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -28,6 +29,23 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Index({ appointments }: { appointments: Appointment[] }) {
+
+    /*useEffect(() => {
+        if (!window.Echo) {
+            console.error("Echo not initialized");
+            return;
+        }
+        window.Echo
+            .channel("appointments")
+            .listen("NewAppointment", (e: any) => {
+                console.log("Received:", e.message);
+            });
+
+        return () => {
+            window.Echo.leave("appointments");
+        };
+    }, []);*/
+
 
     const [specialtyFilter, setSpecialtyFilter] = useState("all");
     const [elderly, setElderly] = useState<boolean>(false);
@@ -118,7 +136,7 @@ export default function Index({ appointments }: { appointments: Appointment[] })
                                             value={specialtyFilter}
                                             onValueChange={setSpecialtyFilter}
                                         >
-                                            <SelectTrigger className="w-full max-w-46 sm:max-w-36">
+                                            <SelectTrigger className="w-full max-w-46 sm:max-w-42">
                                                 <SelectValue
                                                     placeholder="Selecione uma especialidade"
                                                     tabIndex={1}

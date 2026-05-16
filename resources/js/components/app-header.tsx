@@ -41,6 +41,7 @@ import AppLogo from './app-logo';
 import { index as indexPatients } from '@/routes/patients';
 import { index as indexSpecialties } from '@/routes/specialties';
 import { index as indexAppointments } from '@/routes/appointments';
+const logoUrl = import.meta.env.VITE_APP_LOGO_URL;
 
 const mainNavItems: NavItem[] = [
     {
@@ -100,10 +101,12 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                 </SheetTitle>
                                 <SheetHeader className="flex justify-start text-left">
                                     <img
-                                        src="/storage/img/abrace_logo.png"
+                                        src={logoUrl}
                                         alt="logo"
                                         width={30}
                                         height={30}
+                                        loading="eager"
+                                        fetchPriority="high"
                                     />
                                 </SheetHeader>
                                 <div className="flex h-full flex-1 flex-col space-y-4 p-4">

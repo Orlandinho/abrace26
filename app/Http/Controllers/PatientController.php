@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewAppointment;
 use App\Http\Requests\StorePatientRequest;
 use App\Http\Requests\UpdatePatientRequest;
 use App\Http\Resources\PatientResource;
@@ -10,7 +11,6 @@ use App\Http\Resources\SpecialtyResource;
 use App\Models\Patient;
 use App\Models\PatientSpecialty;
 use App\Models\Specialty;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
 class PatientController extends Controller
@@ -38,6 +38,8 @@ class PatientController extends Controller
                 $patient->specialties()->attach($request->specialties);
             }
         });
+
+        //broadcast(new NewAppointment('Novas consultas cadastradas'));
 
         return redirect()
             ->back()
