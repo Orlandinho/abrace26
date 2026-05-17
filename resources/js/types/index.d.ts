@@ -28,7 +28,7 @@ export interface SharedData {
     auth: Auth;
     sidebarOpen: boolean;
     alert: {
-        type: 'success' | 'failure' | 'warning';
+        type: 'success' | 'failure' | 'attention';
         message: string;
         title: string;
     }

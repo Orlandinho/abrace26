@@ -14,18 +14,18 @@ import { SharedData } from '@/types';
 export default function Notifications() {
     const [show, setShow] = useState(false)
     const { alert } = usePage<SharedData>().props
-    type AlertType = 'success' | 'failure' | 'warning';
+    type AlertType = 'success' | 'failure' | 'attention';
 
     const setIconColor: Record<AlertType, string> = {
         success: 'text-green-600',
         failure: 'text-red-600',
-        warning: 'text-yellow-600',
+        attention: 'text-yellow-600',
     };
 
     const setIcon: Record<AlertType, React.ElementType> = {
         success: CheckCircleIcon,
         failure: CircleXIcon,
-        warning: TriangleAlertIcon,
+        attention: TriangleAlertIcon,
     }
 
     const Icon = setIcon[alert?.type]
@@ -35,7 +35,7 @@ export default function Notifications() {
 
         const startTimer = setTimeout(() => setShow(true), 0);
 
-        const hideTimer = setTimeout(() => setShow(false), 5000);
+        const hideTimer = setTimeout(() => setShow(false), 5500);
 
         return () => {
             clearTimeout(startTimer);

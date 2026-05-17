@@ -19,17 +19,20 @@ export default function EditStatus({ appointment }: { appointment: Appointment }
         0: 'bg-red-500 hover:bg-red-400',
         1: 'bg-amber-600 hover:bg-amber-500',
         2: 'bg-green-600 hover:bg-green-500',
+        3: 'bg-neutral-600 hover:bg-neutral-500',
     };
     const setTextColor: Record<Appointment['status'], string> = {
         0: 'text-red-500 hover:text-red-400',
         1: 'text-amber-600 hover:text-amber-500',
         2: 'text-green-600 hover:text-green-500',
+        3: 'text-neutral-600 hover:text-neutral-500',
     };
 
     const setButtonText: Record<Appointment['status'], string> = {
         0: 'Aguardando',
         1: 'Em atendimento',
         2: 'Encerrada',
+        3: 'Ocupado',
     }
 
 

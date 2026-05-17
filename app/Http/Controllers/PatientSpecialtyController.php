@@ -22,6 +22,24 @@ class PatientSpecialtyController extends Controller
      */
     public function update(PatientSpecialty $appointment)
     {
+        $conflict = PatientSpecialty::where('status', 1)
+            ->where('id', '!=', $appointment->id)
+            ->where(function ($query) use ($appointment) {
+                $query->where('patient_id', $appointment->patient_id)
+                    ->orWhere('specialty_id', $appointment->specialty_id);
+            })
+            ->first();
+
+        if ($conflict) {
+            if ($conflict->patient_id === $appointment->patient_id) {
+                return back()->alertWarning('Esse paciente já está em atendimento! Por favor, aguarde o término da consulta atual.');
+            }
+
+            if ($conflict->specialty_id === $appointment->specialty_id) {
+                return back()->alertWarning('Existe um paciente sendo atendido nessa especialidade! Por favor, aguarde o término do atendimento atual.');
+            }
+        }
+
         $newStatus = match ($appointment->status) {
             0 => 1,
             1 => 2,
