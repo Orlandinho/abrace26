@@ -21,13 +21,11 @@ export default function Index({ patients, specialties }: { patients: Patient[], 
     const [search, setSearch] = useState('');
 
     const filteredPatients = useMemo(() => {
-        // Se não houver busca, retorna a lista original
         if (!search.trim()) return patients;
 
         const lowerCaseSearch = search.toLowerCase();
 
         return patients.filter((p) => {
-            // Busca por Nome ou CPF (ou qualquer outro campo relevante)
             return (
                 p.name.toLowerCase().includes(lowerCaseSearch)
             );

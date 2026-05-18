@@ -47,7 +47,7 @@ export default function Create({ specialties } : { specialties?: Specialty[] }) 
             <button
                 onClick={() => setOpen(true)}
                 type="button"
-                className="whitespace-nowrap shrink-0 block cursor-pointer rounded-md bg-amber-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-amber-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 dark:bg-amber-600 dark:hover:bg-amber-500 dark:focus-visible:outline-amber-500"
+                className="block shrink-0 cursor-pointer rounded-md bg-amber-600 px-3 py-2 text-center text-sm font-semibold whitespace-nowrap text-white shadow-xs hover:bg-amber-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 dark:bg-amber-600 dark:hover:bg-amber-500 dark:focus-visible:outline-amber-500"
             >
                 Novo Paciente
             </button>
@@ -62,11 +62,11 @@ export default function Create({ specialties } : { specialties?: Specialty[] }) 
                     className="fixed inset-0 bg-neutral-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in dark:bg-neutral-900/50"
                 />
 
-                <div className="fixed top-0 z-10 w-screen overflow-y-auto md:inset-0">
-                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <div className="fixed inset-0 z-10 overflow-y-auto">
+                    <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
                         <DialogPanel
                             transition
-                            className="relative w-92 transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-xl sm:p-6 data-closed:sm:translate-y-0 data-closed:sm:scale-95 dark:bg-neutral-900 dark:outline dark:-outline-offset-1 dark:outline-white/10"
+                            className="relative max-h-[90dvh] w-92 transform overflow-y-auto rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-xl sm:p-6 data-closed:sm:translate-y-0 data-closed:sm:scale-95 dark:bg-neutral-900 dark:outline dark:-outline-offset-1 dark:outline-white/10"
                         >
                             <div className="mt-3 text-center sm:mt-0 sm:ml-4">
                                 <DialogTitle
