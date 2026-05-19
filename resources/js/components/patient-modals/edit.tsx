@@ -67,12 +67,12 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                     className="fixed inset-0 bg-neutral-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in dark:bg-neutral-900/50"
                 />
 
-                <div className="fixed top-0 z-10 w-screen overflow-y-auto md:inset-0">
-                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <div className="fixed inset-0 z-10 overflow-y-auto">
+                    <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
                         <DialogPanel
                             key={patient.id}
                             transition
-                            className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 w-92 sm:w-full sm:max-w-xl sm:p-6 data-closed:sm:translate-y-0 data-closed:sm:scale-95 dark:bg-neutral-900 dark:outline dark:-outline-offset-1 dark:outline-white/10"
+                            className="relative max-h-[90dvh] w-92 transform overflow-y-auto rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-xl sm:p-6 data-closed:sm:translate-y-0 data-closed:sm:scale-95 dark:bg-neutral-900 dark:outline dark:-outline-offset-1 dark:outline-white/10"
                         >
                             <div className="mt-3 text-center sm:mt-0 sm:ml-4">
                                 <DialogTitle
@@ -109,7 +109,7 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                                 />
                                             </div>
 
-                                            <div className="relative grid gap-y-2 sm:col-span-3">
+                                            <div className="relative grid gap-y-2 sm:col-span-2">
                                                 <Label htmlFor="dob">
                                                     Data de Nascimento
                                                 </Label>
@@ -174,15 +174,15 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                                     <Checkbox
                                                         id="allow_contact"
                                                         name="allow_contact"
-                                                        checked={
-                                                            Boolean(allowContact)
-                                                        }
+                                                        checked={Boolean(
+                                                            allowContact,
+                                                        )}
                                                         value={1}
                                                         onCheckedChange={(
                                                             checked: boolean,
                                                         ) => {
                                                             setAllowContact(
-                                                                checked
+                                                                checked,
                                                             );
                                                         }}
                                                         tabIndex={5}
@@ -194,93 +194,113 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                                 </div>
                                             </div>
 
-                                            {Boolean(allowContact) && <div className="relative grid gap-y-2 sm:col-span-3">
-                                                <Label
-                                                    className={allowContact ? '' : 'text-neutral-400'}
-                                                    htmlFor="contact">
-                                                    Celular/WhatsApp
-                                                </Label>
-                                                <Input
-                                                    id="contact"
-                                                    type="text"
-                                                    name="contact"
-                                                    className={allowContact ? 'cursor-text' : 'cursor-not-allowed'}
-                                                    value={phone}
-                                                    required={allowContact}
-                                                    maxLength={10}
-                                                    onChange={handleChange}
-                                                    tabIndex={6}
-                                                />
-                                                <InputError
-                                                    message={errors.contact}
-                                                    className="absolute top-full mt-1"
-                                                />
-                                            </div>}
-
-                                            {(specialties && specialties.length > 0) && (
-                                                <div className="relative grid gap-y-2 sm:col-span-6">
-                                                    <fieldset>
-                                                        <legend className="mb-4 text-sm leading-none font-medium">
-                                                            Lista de
-                                                            Especialidades
-                                                        </legend>
-                                                        <div className="grid grid-cols-1 grid-cols-4 gap-x-6 gap-y-4 rounded-lg border border-neutral-200 dark:border-neutral-800 px-4 py-3 sm:grid-cols-3">
-                                                            {specialties.map(
-                                                                (specialty) => (
-                                                                    <div
-                                                                        key={
-                                                                            specialty.id
-                                                                        }
-                                                                        className="col-span-2 flex gap-3 sm:col-span-1"
-                                                                    >
-                                                                        <div className="flex h-6 shrink-0 items-center">
-                                                                            <div className="group grid size-4 grid-cols-1">
-                                                                                <Checkbox
-                                                                                    id={
-                                                                                        specialty.name
-                                                                                    }
-                                                                                    name="specialties[]"
-                                                                                    value={
-                                                                                        specialty.id
-                                                                                    }
-                                                                                    disabled={canSelect(specialty)}
-                                                                                    defaultChecked={selectedIds.includes(
-                                                                                        specialty.id
-                                                                                    )}
-                                                                                    tabIndex={
-                                                                                        7
-                                                                                    }
-                                                                                />
-                                                                            </div>
-                                                                        </div>
-                                                                        <div className="text-sm/6">
-                                                                            <label
-                                                                                htmlFor={
-                                                                                    specialty.name
-                                                                                }
-                                                                                className={cn(
-                                                                                    'font-medium dark:text-white',
-                                                                                    canSelect(specialty)
-                                                                                        ? 'text-neutral-400 dark:text-white/35'
-                                                                                        : 'text-neutral-900 dark:text-white',
-                                                                                )}
-                                                                            >
-                                                                                {
-                                                                                    specialty.name
-                                                                                }
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                ),
-                                                            )}
-                                                        </div>
-                                                    </fieldset>
+                                            {Boolean(allowContact) && (
+                                                <div className="relative grid gap-y-2 sm:col-span-3">
+                                                    <Label
+                                                        className={
+                                                            allowContact
+                                                                ? ''
+                                                                : 'text-neutral-400'
+                                                        }
+                                                        htmlFor="contact"
+                                                    >
+                                                        Celular/WhatsApp
+                                                    </Label>
+                                                    <Input
+                                                        id="contact"
+                                                        type="text"
+                                                        name="contact"
+                                                        className={
+                                                            allowContact
+                                                                ? 'cursor-text'
+                                                                : 'cursor-not-allowed'
+                                                        }
+                                                        value={phone}
+                                                        required={allowContact}
+                                                        maxLength={10}
+                                                        onChange={handleChange}
+                                                        tabIndex={6}
+                                                    />
                                                     <InputError
                                                         message={errors.contact}
                                                         className="absolute top-full mt-1"
                                                     />
                                                 </div>
                                             )}
+
+                                            {specialties &&
+                                                specialties.length > 0 && (
+                                                    <div className="relative grid gap-y-2 sm:col-span-6">
+                                                        <fieldset>
+                                                            <legend className="mb-4 text-sm leading-none font-medium">
+                                                                Lista de
+                                                                Especialidades
+                                                            </legend>
+                                                            <div className="grid grid-cols-1 grid-cols-4 gap-x-6 gap-y-4 rounded-lg border border-neutral-200 px-4 py-3 sm:grid-cols-3 dark:border-neutral-800">
+                                                                {specialties.map(
+                                                                    (
+                                                                        specialty,
+                                                                    ) => (
+                                                                        <div
+                                                                            key={
+                                                                                specialty.id
+                                                                            }
+                                                                            className="col-span-2 flex gap-3 sm:col-span-1"
+                                                                        >
+                                                                            <div className="flex h-6 shrink-0 items-center">
+                                                                                <div className="group grid size-4 grid-cols-1">
+                                                                                    <Checkbox
+                                                                                        id={
+                                                                                            specialty.name
+                                                                                        }
+                                                                                        name="specialties[]"
+                                                                                        value={
+                                                                                            specialty.id
+                                                                                        }
+                                                                                        disabled={canSelect(
+                                                                                            specialty,
+                                                                                        )}
+                                                                                        defaultChecked={selectedIds.includes(
+                                                                                            specialty.id,
+                                                                                        )}
+                                                                                        tabIndex={
+                                                                                            7
+                                                                                        }
+                                                                                    />
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="text-sm/6">
+                                                                                <label
+                                                                                    htmlFor={
+                                                                                        specialty.name
+                                                                                    }
+                                                                                    className={cn(
+                                                                                        'font-medium dark:text-white',
+                                                                                        canSelect(
+                                                                                            specialty,
+                                                                                        )
+                                                                                            ? 'text-neutral-400 dark:text-white/35'
+                                                                                            : 'text-neutral-900 dark:text-white',
+                                                                                    )}
+                                                                                >
+                                                                                    {
+                                                                                        specialty.name
+                                                                                    }
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                    ),
+                                                                )}
+                                                            </div>
+                                                        </fieldset>
+                                                        <InputError
+                                                            message={
+                                                                errors.contact
+                                                            }
+                                                            className="absolute top-full mt-1"
+                                                        />
+                                                    </div>
+                                                )}
                                         </div>
                                         <div className="mt-6 sm:flex sm:flex-row-reverse">
                                             <button
@@ -311,7 +331,7 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                                 type="button"
                                                 tabIndex={9}
                                                 onClick={() => closeModal()}
-                                                className="mt-3 inline-flex w-full cursor-pointer justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-neutral-900 shadow-xs inset-ring-1 inset-ring-neutral-300 hover:bg-neutral-50 sm:mt-0 sm:w-auto hover:bg-neutral-100 dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20"
+                                                className="mt-3 inline-flex w-full cursor-pointer justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-neutral-900 shadow-xs inset-ring-1 inset-ring-neutral-300 hover:bg-neutral-50 hover:bg-neutral-100 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20"
                                             >
                                                 Cancelar
                                             </button>
