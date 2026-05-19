@@ -64,7 +64,9 @@ class PatientController extends Controller
     {
         DB::transaction( function () use ($request, $patient) {
             $patient->update($request->safe()->except('specialties'));
-            $patient->specialties()->sync($request->specialties);
+            if ($request->specialties) {
+                $patient->specialties()->sync($request->specialties);
+            }
         });
 
         return redirect()
