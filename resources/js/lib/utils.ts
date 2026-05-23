@@ -33,7 +33,7 @@ export function formatPhone(value : string): string {
     return limited.replace(/^(\d{4,5})(\d{4}).*/, '$1-$2');
 }
 
-export function onlyNumbers(value: string): number | string {
+export function onlyNumbers(value: string): string {
     if (!value) return '';
 
     return value.replace(/\D/g, '');

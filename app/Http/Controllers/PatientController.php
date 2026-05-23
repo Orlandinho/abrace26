@@ -63,10 +63,18 @@ class PatientController extends Controller
     public function update(UpdatePatientRequest $request, Patient $patient)
     {
         DB::transaction( function () use ($request, $patient) {
-            $patient->update($request->safe()->except('specialties'));
+
+            $patient->update([
+                'name' => $request->name,
+                'dob' => $request->dob,
+                'allow_contact' => $request->allow_contact,
+                'contact' => $request->contact,
+            ]);
+
             if ($request->specialties) {
                 $patient->specialties()->sync($request->specialties);
             }
+
         });
 
         return redirect()

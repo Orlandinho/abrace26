@@ -21,22 +21,11 @@ import { Checkbox } from '@/components/ui/checkbox';
 export default function Edit({ patient, specialties } : { patient: Patient, specialties?: Specialty[] }) {
 
     const [open, setOpen] = useState(false);
-    const [phone, setPhone] = useState(patient.contact ?? '');
     const [allowContact, setAllowContact] = useState(patient.allow_contact ?? 0);
-    const [height, setHeight] = useState(patient.height ??'');
-    const [weight, setWeight] = useState(patient.weight ?? '');
     const firstInputRef = useRef<HTMLInputElement>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        return setPhone(formatPhone(e.target.value));
-    };
-
-    const handleHeight = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setHeight(formatHeight(e.target.value));
-    };
-
-    const handleWeight = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setWeight(formatWeight(e.target.value));
+        e.target.value = formatPhone(e.target.value);
     };
 
     const selectedIds = (patient.specialties ?? []).map((s) => s.id);
@@ -44,11 +33,6 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
     const canSelect = (specialty: Specialty) => {
         return specialty.count >= specialty.limit &&
             !selectedIds.includes(specialty.id);
-    }
-
-    const closeModal = () => {
-        setOpen(false);
-        setPhone('');
     }
 
     return (
@@ -70,7 +54,6 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                 <div className="fixed inset-0 z-10 overflow-y-auto">
                     <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
                         <DialogPanel
-                            key={patient.id}
                             transition
                             className="relative max-h-[90dvh] w-92 transform overflow-y-auto rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-xl sm:p-6 data-closed:sm:translate-y-0 data-closed:sm:scale-95 dark:bg-neutral-900 dark:outline dark:-outline-offset-1 dark:outline-white/10"
                         >
@@ -84,12 +67,12 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                             </div>
                             <Form
                                 {...update.form(patient)}
-                                onSuccess={() => closeModal()}
+                                onSuccess={() => setOpen(false)}
                             >
                                 {({ processing, errors }) => (
                                     <>
-                                        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                                            <div className="relative grid gap-y-2 sm:col-span-6">
+                                        <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                            <div className="relative col-span-2 grid gap-y-2 sm:col-span-6">
                                                 <Label htmlFor="name">
                                                     Nome
                                                 </Label>
@@ -109,7 +92,7 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                                 />
                                             </div>
 
-                                            <div className="relative grid gap-y-2 sm:col-span-2">
+                                            <div className="relative col-span-3 grid gap-y-2">
                                                 <Label htmlFor="dob">
                                                     Data de Nascimento
                                                 </Label>
@@ -127,49 +110,7 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                                 />
                                             </div>
 
-                                            <div className="relative grid gap-y-2 sm:col-span-2">
-                                                <Label htmlFor="height">
-                                                    Altura
-                                                </Label>
-                                                <Input
-                                                    id="height"
-                                                    type="text"
-                                                    name="height"
-                                                    suffix="m"
-                                                    value={height}
-                                                    tabIndex={3}
-                                                    maxLength={4}
-                                                    inputMode="numeric"
-                                                    onChange={handleHeight}
-                                                />
-                                                <InputError
-                                                    message={errors.dob}
-                                                    className="absolute top-full mt-1"
-                                                />
-                                            </div>
-
-                                            <div className="relative grid gap-y-2 sm:col-span-2">
-                                                <Label htmlFor="weight">
-                                                    Peso
-                                                </Label>
-                                                <Input
-                                                    id="weight"
-                                                    type="text"
-                                                    suffix="kg"
-                                                    name="weight"
-                                                    value={weight}
-                                                    tabIndex={4}
-                                                    inputMode="numeric"
-                                                    maxLength={6}
-                                                    onChange={handleWeight}
-                                                />
-                                                <InputError
-                                                    message={errors.dob}
-                                                    className="absolute top-full mt-1"
-                                                />
-                                            </div>
-
-                                            <div className="relative grid gap-y-2 sm:col-span-3">
+                                            <div className="relative col-span-2 grid gap-y-2 sm:col-span-3">
                                                 <div className="flex items-center space-x-3">
                                                     <Checkbox
                                                         id="allow_contact"
@@ -185,7 +126,7 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                                                 checked,
                                                             );
                                                         }}
-                                                        tabIndex={5}
+                                                        tabIndex={3}
                                                     />
                                                     <Label htmlFor="allow_contact">
                                                         Permite guardar o
@@ -195,7 +136,7 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                             </div>
 
                                             {Boolean(allowContact) && (
-                                                <div className="relative grid gap-y-2 sm:col-span-3">
+                                                <div className="relative col-span-2 grid gap-y-2 sm:col-span-3">
                                                     <Label
                                                         className={
                                                             allowContact
@@ -215,11 +156,14 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                                                 ? 'cursor-text'
                                                                 : 'cursor-not-allowed'
                                                         }
-                                                        value={phone}
+                                                        defaultValue={formatPhone(
+                                                            patient.contact ??
+                                                                '',
+                                                        )}
                                                         required={allowContact}
                                                         maxLength={10}
                                                         onChange={handleChange}
-                                                        tabIndex={6}
+                                                        tabIndex={4}
                                                     />
                                                     <InputError
                                                         message={errors.contact}
@@ -230,7 +174,7 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
 
                                             {specialties &&
                                                 specialties.length > 0 && (
-                                                    <div className="relative grid gap-y-2 sm:col-span-6">
+                                                    <div className="relative col-span-2 grid gap-y-2 sm:col-span-6">
                                                         <fieldset>
                                                             <legend className="mb-4 text-sm leading-none font-medium">
                                                                 Lista de
@@ -264,7 +208,7 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                                                                             specialty.id,
                                                                                         )}
                                                                                         tabIndex={
-                                                                                            7
+                                                                                            5
                                                                                         }
                                                                                     />
                                                                                 </div>
@@ -305,7 +249,7 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                         <div className="mt-6 sm:flex sm:flex-row-reverse">
                                             <button
                                                 disabled={processing}
-                                                tabIndex={8}
+                                                tabIndex={6}
                                                 className={clsx(
                                                     'relative inline-flex w-full cursor-pointer justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 sm:ml-3 sm:w-auto dark:shadow-none',
                                                     processing
@@ -329,8 +273,8 @@ export default function Edit({ patient, specialties } : { patient: Patient, spec
                                             </button>
                                             <button
                                                 type="button"
-                                                tabIndex={9}
-                                                onClick={() => closeModal()}
+                                                tabIndex={7}
+                                                onClick={() => setOpen(false)}
                                                 className="mt-3 inline-flex w-full cursor-pointer justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-neutral-900 shadow-xs inset-ring-1 inset-ring-neutral-300 hover:bg-neutral-50 hover:bg-neutral-100 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20"
                                             >
                                                 Cancelar

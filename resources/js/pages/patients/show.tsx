@@ -111,7 +111,7 @@ export default function Show({ appointments, patient }: { appointments: Appointm
                                         </dt>
                                         <dd className="mt-1 text-sm/6 text-neutral-700 sm:mt-2 dark:text-neutral-400">
                                             {patient.temperature
-                                                ? patient.temperature + 'º'
+                                                ? patient.temperature + 'ºC'
                                                 : 'Sem dados'}
                                         </dd>
                                     </div>

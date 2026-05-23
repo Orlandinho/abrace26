@@ -14,27 +14,17 @@ import { Input } from '@/components/ui/input';
 import InputError from '@/components/input-error';
 import { LoaderCircle } from 'lucide-react';
 import { clsx } from 'clsx';
-import { cn, formatPhone, formatHeight, formatWeight } from '@/lib/utils';
+import { cn, formatPhone } from '@/lib/utils';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Specialty } from '@/types';
 
 export default function Create({ specialties } : { specialties?: Specialty[] }) {
     const [open, setOpen] = useState(false);
     const [phone, setPhone] = useState('');
-    const [height, setHeight] = useState('');
-    const [weight, setWeight] = useState('');
     const [allowContact, setAllowContact] = useState(false);
     const firstInputRef = useRef<HTMLInputElement>(null);
     const handleContact = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPhone(formatPhone(e.target.value));
-    };
-
-    const handleHeight = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setHeight(formatHeight(e.target.value));
-    };
-
-    const handleWeight = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setWeight(formatWeight(e.target.value));
     };
 
     const closeModal = () => {
@@ -83,8 +73,8 @@ export default function Create({ specialties } : { specialties?: Specialty[] }) 
                             >
                                 {({ processing, errors }) => (
                                     <>
-                                        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                                            <div className="relative grid gap-y-2 sm:col-span-6">
+                                        <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                            <div className="relative grid gap-y-2 col-span-2 sm:col-span-6">
                                                 <Label htmlFor="name">
                                                     Nome
                                                 </Label>
@@ -103,7 +93,7 @@ export default function Create({ specialties } : { specialties?: Specialty[] }) 
                                                 />
                                             </div>
 
-                                            <div className="relative grid gap-y-2 sm:col-span-2">
+                                            <div className="relative grid gap-y-2 col-span-2 sm:col-span-3">
                                                 <Label htmlFor="dob">
                                                     Data de Nascimento
                                                 </Label>
@@ -120,49 +110,7 @@ export default function Create({ specialties } : { specialties?: Specialty[] }) 
                                                 />
                                             </div>
 
-                                            <div className="relative grid gap-y-2 sm:col-span-2">
-                                                <Label htmlFor="height">
-                                                    Altura
-                                                </Label>
-                                                <Input
-                                                    id="height"
-                                                    type="text"
-                                                    name="height"
-                                                    suffix="m"
-                                                    value={height}
-                                                    tabIndex={3}
-                                                    maxLength={4}
-                                                    inputMode="numeric"
-                                                    onChange={handleHeight}
-                                                />
-                                                <InputError
-                                                    message={errors.dob}
-                                                    className="absolute top-full mt-1"
-                                                />
-                                            </div>
-
-                                            <div className="relative grid gap-y-2 sm:col-span-2">
-                                                <Label htmlFor="weight">
-                                                    Peso
-                                                </Label>
-                                                <Input
-                                                    id="weight"
-                                                    type="text"
-                                                    suffix="kg"
-                                                    name="weight"
-                                                    value={weight}
-                                                    tabIndex={4}
-                                                    inputMode="numeric"
-                                                    maxLength={6}
-                                                    onChange={handleWeight}
-                                                />
-                                                <InputError
-                                                    message={errors.dob}
-                                                    className="absolute top-full mt-1"
-                                                />
-                                            </div>
-
-                                            <div className="relative grid gap-y-2 sm:col-span-3">
+                                            <div className="relative grid gap-y-2 col-span-2 sm:col-span-3">
                                                 <div className="flex items-center space-x-3">
                                                     <Checkbox
                                                         id="allow_contact"
@@ -175,7 +123,7 @@ export default function Create({ specialties } : { specialties?: Specialty[] }) 
                                                             );
                                                         }}
                                                         value={1}
-                                                        tabIndex={5}
+                                                        tabIndex={3}
                                                     />
                                                     <Label htmlFor="allow_contact">
                                                         Permite guardar o
@@ -185,7 +133,7 @@ export default function Create({ specialties } : { specialties?: Specialty[] }) 
                                             </div>
 
                                             {allowContact && (
-                                                <div className="relative grid gap-y-2 sm:col-span-3">
+                                                <div className="relative grid gap-y-2 col-span-2 sm:col-span-3">
                                                     <Label htmlFor="contact">
                                                         Celular/WhatsApp
                                                     </Label>
@@ -197,7 +145,7 @@ export default function Create({ specialties } : { specialties?: Specialty[] }) 
                                                         maxLength={10}
                                                         required={allowContact}
                                                         onChange={handleContact}
-                                                        tabIndex={6}
+                                                        tabIndex={4}
                                                     />
                                                     <InputError
                                                         message={errors.contact}
@@ -208,7 +156,7 @@ export default function Create({ specialties } : { specialties?: Specialty[] }) 
 
                                             {specialties &&
                                                 specialties.length > 0 && (
-                                                    <div className="relative grid gap-y-2 sm:col-span-6">
+                                                    <div className="relative grid gap-y-2 col-span-2 sm:col-span-6">
                                                         <fieldset>
                                                             <legend className="mb-4 text-sm leading-none font-medium">
                                                                 Lista de
@@ -240,7 +188,7 @@ export default function Create({ specialties } : { specialties?: Specialty[] }) 
                                                                                             specialty.id
                                                                                         }
                                                                                         tabIndex={
-                                                                                            7
+                                                                                            5
                                                                                         }
                                                                                     />
                                                                                 </div>
@@ -280,7 +228,7 @@ export default function Create({ specialties } : { specialties?: Specialty[] }) 
                                         <div className="mt-6 sm:flex sm:flex-row-reverse">
                                             <button
                                                 disabled={processing}
-                                                tabIndex={8}
+                                                tabIndex={6}
                                                 className={clsx(
                                                     'relative inline-flex w-full cursor-pointer justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 sm:ml-3 sm:w-auto dark:shadow-none',
                                                     processing
@@ -304,7 +252,7 @@ export default function Create({ specialties } : { specialties?: Specialty[] }) 
                                             </button>
                                             <button
                                                 type="button"
-                                                tabIndex={9}
+                                                tabIndex={7}
                                                 onClick={() => closeModal()}
                                                 className="mt-3 inline-flex w-full cursor-pointer justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-neutral-900 shadow-xs inset-ring-1 inset-ring-neutral-300 hover:bg-neutral-50 hover:bg-neutral-100 sm:mt-0 sm:w-auto dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20"
                                             >

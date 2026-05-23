@@ -8,43 +8,51 @@ import {
 } from '@headlessui/react';
 import React, { useRef, useState } from 'react';
 import { Form } from '@inertiajs/react';
-import { update } from '@/routes/patients';
+import { update } from '@/routes/triage';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import InputError from '@/components/input-error';
 import { LoaderCircle } from 'lucide-react';
 import { clsx } from 'clsx';
 import { Patient } from '@/types';
-import { formatPression, formatWeight, onlyNumbers } from '@/lib/utils';
+import {
+    formatHeight,
+    formatPression,
+    formatWeight,
+    onlyNumbers,
+} from '@/lib/utils';
 
 export default function TriagemEdit({ patient } : { patient: Patient }) {
 
     const [open, setOpen] = useState(false);
-    const [pression, setPression] = useState(patient.pression);
-    const [glicemia, setGlicemia] = useState<string|number>(patient.glicemia as string);
-    const [breath, setBreath] = useState<string|number>(patient.breath as string);
-    const [pulse, setPulse] = useState<string|number>(patient.breath as string);
-    const [temperature, setTemperature] = useState<string|number>(patient.temperature as string);
     const firstInputRef = useRef<HTMLInputElement>(null);
 
+    const handleHeight = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.target.value = formatHeight(e.target.value);
+    };
+
+    const handleWeight = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.target.value = formatWeight(e.target.value);
+    };
+
     const handlePression = (e: React.ChangeEvent<HTMLInputElement>) => {
-        return setPression(formatPression(e.target.value));
+        e.target.value = formatPression(e.target.value);
     }
 
-    const handleOnlyNumbers = (e: React.ChangeEvent<HTMLInputElement>) => {
-        return setGlicemia(onlyNumbers(e.target.value));
+    const handleGlicemia = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.target.value = onlyNumbers(e.target.value);
     };
 
     const handleBreath = (e: React.ChangeEvent<HTMLInputElement>) => {
-        return setBreath(onlyNumbers(e.target.value));
+        e.target.value = onlyNumbers(e.target.value);
     };
 
     const handlePulse = (e: React.ChangeEvent<HTMLInputElement>) => {
-        return setPulse(onlyNumbers(e.target.value));
+        e.target.value = onlyNumbers(e.target.value);
     };
 
     const handleTemperature = (e: React.ChangeEvent<HTMLInputElement>) => {
-        return setTemperature(formatWeight(e.target.value));
+        e.target.value = formatWeight(e.target.value);
     };
 
     const closeModal = () => {
@@ -95,6 +103,51 @@ export default function TriagemEdit({ patient } : { patient: Patient }) {
                                     <>
                                         <div className="mt-12 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                             <div className="relative grid gap-y-2 sm:col-span-2">
+                                                <Label htmlFor="height">
+                                                    Altura
+                                                </Label>
+                                                <Input
+                                                    id="height"
+                                                    type="text"
+                                                    name="height"
+                                                    suffix="m"
+                                                    defaultValue={
+                                                        patient.height ?? ''
+                                                    }
+                                                    maxLength={4}
+                                                    ref={firstInputRef}
+                                                    tabIndex={1}
+                                                    onChange={handleHeight}
+                                                />
+                                                <InputError
+                                                    message={errors.height}
+                                                    className="absolute top-full mt-1"
+                                                />
+                                            </div>
+
+                                            <div className="relative grid gap-y-2 sm:col-span-2">
+                                                <Label htmlFor="weight">
+                                                    Peso
+                                                </Label>
+                                                <Input
+                                                    id="weight"
+                                                    type="text"
+                                                    name="weight"
+                                                    suffix="kg"
+                                                    defaultValue={
+                                                        patient.weight ?? ''
+                                                    }
+                                                    maxLength={6}
+                                                    tabIndex={2}
+                                                    onChange={handleWeight}
+                                                />
+                                                <InputError
+                                                    message={errors.weight}
+                                                    className="absolute top-full mt-1"
+                                                />
+                                            </div>
+
+                                            <div className="relative grid gap-y-2 sm:col-span-2">
                                                 <Label htmlFor="pression">
                                                     Pressão Arterial
                                                 </Label>
@@ -103,10 +156,11 @@ export default function TriagemEdit({ patient } : { patient: Patient }) {
                                                     type="text"
                                                     name="pression"
                                                     suffix="mmHg"
-                                                    value={pression}
+                                                    defaultValue={
+                                                        patient.pression ?? ''
+                                                    }
                                                     maxLength={7}
-                                                    ref={firstInputRef}
-                                                    tabIndex={1}
+                                                    tabIndex={3}
                                                     onChange={handlePression}
                                                 />
                                                 <InputError
@@ -124,10 +178,12 @@ export default function TriagemEdit({ patient } : { patient: Patient }) {
                                                     type="text"
                                                     name="glicemia"
                                                     suffix="mg/dL"
-                                                    value={glicemia}
+                                                    defaultValue={
+                                                        patient.glicemia ?? ''
+                                                    }
                                                     maxLength={3}
-                                                    tabIndex={2}
-                                                    onChange={handleOnlyNumbers}
+                                                    tabIndex={4}
+                                                    onChange={handleGlicemia}
                                                 />
                                                 <InputError
                                                     message={errors.glicemia}
@@ -143,10 +199,13 @@ export default function TriagemEdit({ patient } : { patient: Patient }) {
                                                     id="temperature"
                                                     type="text"
                                                     name="temperature"
-                                                    suffix="º"
-                                                    value={temperature}
+                                                    suffix="ºC"
+                                                    defaultValue={
+                                                        patient.temperature ??
+                                                        ''
+                                                    }
                                                     maxLength={4}
-                                                    tabIndex={3}
+                                                    tabIndex={5}
                                                     onChange={handleTemperature}
                                                 />
                                                 <InputError
@@ -164,9 +223,11 @@ export default function TriagemEdit({ patient } : { patient: Patient }) {
                                                     type="text"
                                                     name="breath"
                                                     suffix="ipm"
-                                                    value={breath}
+                                                    defaultValue={
+                                                        patient.breath ?? ''
+                                                    }
                                                     maxLength={2}
-                                                    tabIndex={4}
+                                                    tabIndex={6}
                                                     onChange={handleBreath}
                                                 />
                                                 <InputError
@@ -184,9 +245,11 @@ export default function TriagemEdit({ patient } : { patient: Patient }) {
                                                     type="text"
                                                     name="pulse"
                                                     suffix="bpm"
-                                                    value={pulse}
+                                                    defaultValue={
+                                                        patient.pulse ?? ''
+                                                    }
                                                     maxLength={3}
-                                                    tabIndex={5}
+                                                    tabIndex={7}
                                                     onChange={handlePulse}
                                                 />
                                                 <InputError
