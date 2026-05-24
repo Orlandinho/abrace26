@@ -15,11 +15,10 @@ import { isElder } from '@/lib/utils';
 import { index } from '@/routes/appointments';
 import { Appointment, type BreadcrumbItem } from '@/types';
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
-import { Head, router } from '@inertiajs/react';
-import { useEffect, useMemo, useState } from 'react';
+import { Head,  } from '@inertiajs/react';
+import { useMemo, useState } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import Echo from 'laravel-echo';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {

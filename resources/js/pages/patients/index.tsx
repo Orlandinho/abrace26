@@ -62,7 +62,7 @@ export default function Index({ patients, specialties }: { patients: Patient[], 
                                 <div className="mb-8 sm:flex sm:items-center">
                                     <div className="sm:flex-auto">
                                         <h1 className="text-base font-semibold text-neutral-900 dark:text-neutral-100">
-                                            Pacientes
+                                            Total de {patients.length} pacientes cadastrados
                                         </h1>
                                         <p className="mt-2 text-sm text-neutral-700 dark:text-neutral-300">
                                             Lista de todos os pacientes
